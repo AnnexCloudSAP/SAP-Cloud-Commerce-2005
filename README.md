@@ -23,7 +23,7 @@ The Connector contains several extensions. Follow the following steps to include
 3. Run the ```ant clean``` command from within your bin/platform directory.
 
 5. Copy the following lines into your localextensions.xml after <path dir="${HYBRIS_BIN_DIR}"/>. The extensions do not rely on any absolute paths so it is also possible to place the extensions in a different location (such as ${HYBRIS_BIN_DIR}/custom).
-Run the command ```<path autoload="true" dir="${HYBRIS_BIN_DIR}/modules/checkoutcom"/>```
+Run the command ```<path autoload="true" dir="${HYBRIS_BIN_DIR}/modules/annexcloud"/>```
 
 6. Run the commands below to install specific add-ons of the yaccelatorstorefront (replace "yacceleratorstorefront" with your custom storefront if relevant)
 
