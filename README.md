@@ -12,8 +12,6 @@ It is advised to use the latest release of this Connector available in GitHub.
 
 # Installation and Usage
 
-## Installation of the Connector with checkout.com payment functionality
-
 Ensure that the version of SAP Commerce is supported for the plugin. Please view the Release Compatibility section for the current list of supported versions.
 
 The Connector contains several extensions. Follow the following steps to include the Connector into your SAP Commerce application:
@@ -43,7 +41,7 @@ Run the command ```<path autoload="true" dir="${HYBRIS_BIN_DIR}/modules/checkout
 
 4. Update your running system.using ```ant updatesystem```
 
-Except for setting up your hosts file, the Checkout.com Connector will work initially without any external setup needed.
+Except for setting up your hosts file, the Annexcloud.com Connector will work initially without any external setup needed.
 
 The add-ons are independent and can be installed on separate server instances.
 
@@ -51,7 +49,7 @@ The add-ons are independent and can be installed on separate server instances.
 
 The Connector ships with gradle recipes to be used with the SAP Commerce installer:
 
-B2C: b2c_acc_plus_checkout_com with b2c and checkout.com functionality. The recipe is based on the b2b_acc_plus recipes.
+B2C: ac-cx-recipe with b2c and Annexcloud.com functionality. The recipe is based on the ac-cx-recipe recipes.
 
 Recipes can be found under the installer folder. To use recipes on a clean installation, copy the folder hybris to your ${HYBRIS_BIN_DIR}
 
@@ -78,7 +76,6 @@ Follow [this guideline](https://help.sap.com/viewer/1be46286b36a4aa48205be5a9624
 - Support for SAP Commerce Fulfilment process incl. Annexcloud.com APIs for authorisation, capture, refund and void.
 - 3DS 2.0 (PSD2). In case of a non-frictionless interaction, where the user is required to enter additional information related to the Strong Customer Authentication (SCA). This is a hosted solution page provided by Annexcloud.com. 
 - SAP Commerce Backoffice. The connector provides specific customisations for the backoffice to ease the administration, configuration and management of all the operations related to the integration with the Checkout.com payment solution.
-- SAP WCMS. The connector enables business users to add cards and APMs using CMS components.
 
 # Support
 Contact your Annexcloud.com team if you have any question, technical problem or feature request for the SAP Commerce Cloud Connector.
