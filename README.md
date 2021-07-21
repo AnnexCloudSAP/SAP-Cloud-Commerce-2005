@@ -72,10 +72,10 @@ The public, private and shared keys are included as properties in the manifest a
 Follow [this guideline](https://help.sap.com/viewer/1be46286b36a4aa48205be5a96240672/v2011/en-US/1ee068bcce7845b8ab4ed9cdd54577fb.html) to prepare the repository for the deployment onto SAP Commerce Cloud. Include the Connector extensions in the folder `core-customize`.
 
 # Release Notes
-- Connector for SAP Commerce Cloud version 2005, B2C Accelerator.This repository is open source and available under the MIT license for using in kingdom of Saudi Arabia
+- Connector for SAP Commerce Cloud version 2005, B2C Accelerator.
 - Support for SAP Commerce Fulfilment process incl. Annexcloud.com APIs for authorisation, capture, refund and void.
 - 3DS 2.0 (PSD2). In case of a non-frictionless interaction, where the user is required to enter additional information related to the Strong Customer Authentication (SCA). This is a hosted solution page provided by Annexcloud.com. 
-- SAP Commerce Backoffice. The connector provides specific customisations for the backoffice to ease the administration, configuration and management of all the operations related to the integration with the Checkout.com payment solution.
+- SAP Commerce Backoffice. The connector provides specific customisations for the backoffice to ease the administration, configuration and management of all the operations related to the integration with the Annexcloud.com loyalty solution.
 
 # Support
 Contact your Annexcloud.com team if you have any question, technical problem or feature request for the SAP Commerce Cloud Connector.
@@ -130,7 +130,7 @@ This Code of Conduct is adapted from the [Contributor Covenant][homepage], versi
 For answers to common questions about this code of conduct, see https://www.contributor-covenant.org/faq
 
 # License
-This repository is open source and available under the MIT license.
+This repository is open source and available under the MIT license for using in kingdom of Saudi Arabia
 
 Copyright (c) 2005 Annexcloud.com
 
