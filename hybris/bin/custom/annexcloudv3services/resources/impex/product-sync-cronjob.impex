@@ -1,0 +1,6 @@
+$annexSiteCode=SAPCCLTv3
+INSERT_UPDATE ACSyncUserSegmentCronJob;code[unique=true];job(code);sessionLanguage(isoCode)[default=en];active;acSite(code);sessionCurrency(isocode)
+                                      ; acSyncProductsCronJob ;acSyncProductsJobPerformable ;en; true;$annexSiteCode;GBP
+
+INSERT_UPDATE Trigger; cronJob(code)[unique = true]; second; minute; hour; day; month; year; relative; active; maxAcceptableDelay
+                     ; acSyncProductsCronJob     ; 0     ; 1     ; 0   ; -1 ; -1   ; -1  ; false   ; true  ; 600

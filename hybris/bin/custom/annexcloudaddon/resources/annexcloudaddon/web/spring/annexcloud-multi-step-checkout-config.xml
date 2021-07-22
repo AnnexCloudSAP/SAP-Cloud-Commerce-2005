@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ [y] hybris Platform
+
+ Copyright (c) 2018 SAP SE or an SAP affiliate company.  All rights reserved.
+
+ This software is the confidential and proprietary information of SAP
+ ("Confidential Information"). You shall not disclose such Confidential
+ Information and shall use it only in accordance with the terms of the
+ license agreement you entered into with SAP.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util.xsd">
+		
+	<context:annotation-config/>
+    
+     <context:component-scan base-package="com.annexcloud"/>
+	<!--Annex Cloud Checkout Steps START -->
+	
+	<alias name="defaultAnnexCloudMultiStepCheckout" alias="annexCloudMultiStepCheckout" />
+	<bean id="defaultAnnexCloudMultiStepCheckout" parent="checkoutStep">
+		<property name="checkoutGroup" ref="annexCloudCheckoutGroup"/>
+		<property name="checkoutStepValidator" ref="defaultResponsiveMultiStepCheckoutValidator"/>
+		<property name="transitions">
+			<map>
+				<entry key="previous" value-ref="REDIRECT_TO_CART"/>
+				<entry key="current" value-ref="REDIRECT_MULTI_STEP_CHECKOUT"/>
+				<entry key="next" value-ref="REDIRECT_TO_DELIVERY_ADDRESS"/>
+			</map>
+		</property>
+		<property name="progressBarId" value="multi"/>
+	</bean>
+
+	<alias name="defaultAnnexCloudDeliveryAddressCheckoutStep" alias="annexCloudDeliveryAddressCheckoutStep" />
+	<bean id="defaultAnnexCloudDeliveryAddressCheckoutStep" parent="checkoutStep">
+		<property name="checkoutGroup" ref="annexCloudCheckoutGroup"/>
+		<property name="checkoutStepValidator" ref="defaultResponsiveDeliveryAddressCheckoutValidator"/>
+		<property name="transitions">
+			<map merge="true">
+				<entry key="previous" value-ref="REDIRECT_TO_CART"/>
+				<entry key="current" value-ref="REDIRECT_TO_DELIVERY_ADDRESS"/>
+				<entry key="next" value-ref="REDIRECT_TO_DELIVERY_METHOD"/>
+			</map>
+		</property>
+		<property name="progressBarId" value="deliveryAddress"/>
+	</bean>
+
+	<alias name="defaultAnnexCloudDeliveryMethodCheckoutStep" alias="annexCloudDeliveryMethodCheckoutStep" />
+	<bean id="defaultAnnexCloudDeliveryMethodCheckoutStep"  parent="checkoutStep">
+		<property name="checkoutGroup" ref="annexCloudCheckoutGroup"/>
+		<property name="checkoutStepValidator" ref="defaultResponsiveDeliveryMethodCheckoutValidator"/>
+		<property name="transitions">
+			<map merge="true">
+				<entry key="previous" value-ref="REDIRECT_TO_DELIVERY_ADDRESS"/>
+				<entry key="current" value-ref="REDIRECT_TO_DELIVERY_METHOD"/>
+				<entry key="next" value-ref="REDIRECT_TO_ANNEX_CLOUD_POINT_REDEMPTION"/>
+			</map>
+		</property>
+		<property name="progressBarId" value="deliveryMethod"/>
+	</bean>
+	
+    <alias name="defaultAnnexCloudPointRedemptionCheckoutStep" alias="annexCloudPointRedemptionCheckoutStep" />
+	<bean id="defaultAnnexCloudPointRedemptionCheckoutStep" parent="checkoutStep">
+		<property name="checkoutGroup" ref="annexCloudCheckoutGroup"/>
+		<property name="checkoutStepValidator" ref="defaultResponsivePaymentMethodCheckoutValidator"/>
+		<property name="transitions">
+			<map>
+				<entry key="previous" value-ref="REDIRECT_TO_DELIVERY_METHOD"/>
+				<entry key="current" value-ref="REDIRECT_TO_ANNEX_CLOUD_POINT_REDEMPTION"/>
+				<entry key="next" value-ref="REDIRECT_TO_PAYMENT_METHOD"/>
+			</map>
+		</property>
+		<property name="progressBarId" value="pointRedemption"/>
+	</bean>
+
+	<alias name="defaultAnnexCloudPaymentMethodCheckoutStep" alias="annexCloudPaymentMethodCheckoutStep" />
+	<bean id="defaultAnnexCloudPaymentMethodCheckoutStep" parent="checkoutStep">
+		<property name="checkoutGroup" ref="annexCloudCheckoutGroup"/>
+		<property name="checkoutStepValidator" ref="defaultResponsivePaymentMethodCheckoutValidator"/>
+		<property name="transitions">
+			<map merge="true">
+				<entry key="previous" value-ref="REDIRECT_TO_ANNEX_CLOUD_POINT_REDEMPTION"/>
+				<entry key="current" value-ref="REDIRECT_TO_PAYMENT_METHOD"/>
+				<entry key="next" value-ref="REDIRECT_TO_SUMMARY"/>
+			</map>
+		</property>
+		<property name="progressBarId" value="paymentMethod"/>
+	</bean>
+
+	<alias name="defaultAnnexCloudSummaryCheckoutStep" alias="annexCloudSummaryCheckoutStep" />
+	<bean id="defaultAnnexCloudSummaryCheckoutStep"  parent="checkoutStep">
+		<property name="checkoutGroup" ref="annexCloudCheckoutGroup"/>
+		<property name="checkoutStepValidator" ref="defaultResponsiveSummaryCheckoutValidator"/>
+		<property name="transitions">
+			<map merge="true">
+				<entry key="previous" value-ref="REDIRECT_TO_PAYMENT_METHOD"/>
+				<entry key="current" value-ref="REDIRECT_TO_SUMMARY"/>
+				<entry key="next" value="redirect:/checkout/orderConfirmation/%s"/>
+			</map>
+		</property>
+		<property name="progressBarId" value="confirmOrder"/>
+	</bean>
+	
+	<!-- Responsive Checkout Steps END -->
+	
+	<!---Default Responsive checkout group START-->
+
+	<alias name="defaultAnnexCloudMultiStepCheckoutGroup" alias="annexCloudCheckoutGroup" />
+	<bean id="defaultAnnexCloudMultiStepCheckoutGroup"  class="de.hybris.platform.acceleratorstorefrontcommons.checkout.steps.CheckoutGroup">
+		<property name="groupId"  value="annexCloudCheckoutGroup"/>
+		<property name="checkoutStepMap">
+			<map merge="true">
+				<entry key="multi" value-ref="annexCloudMultiStepCheckout"/>
+				<entry key="delivery-address" value-ref="annexCloudDeliveryAddressCheckoutStep"/>
+				<entry key="delivery-method" value-ref="annexCloudDeliveryMethodCheckoutStep"/>
+				<entry key="point-redemption" value-ref="annexCloudPointRedemptionCheckoutStep"/>				
+				<entry key="payment-method" value-ref="annexCloudPaymentMethodCheckoutStep"/>
+				<entry key="summary" value-ref="annexCloudSummaryCheckoutStep"/>
+			</map>
+		</property>
+		<property name="validationResultsMap">
+			<map merge="true">
+				<entry key="FAILED" value-ref="REDIRECT_TO_CART"/>
+				<entry key="REDIRECT_TO_DELIVERY_ADDRESS" value-ref="REDIRECT_TO_DELIVERY_ADDRESS"/>
+				<entry key="REDIRECT_TO_CART" value-ref="REDIRECT_TO_CART"/>
+				<entry key="REDIRECT_TO_PAYMENT_METHOD" value-ref="REDIRECT_TO_PAYMENT_METHOD"/>
+				<entry key="REDIRECT_TO_ANNEX_CLOUD_POINT_REDEMPTION" value-ref="REDIRECT_TO_ANNEX_CLOUD_POINT_REDEMPTION"/>
+				<entry key="REDIRECT_TO_DELIVERY_METHOD" value-ref="REDIRECT_TO_DELIVERY_METHOD"/>
+				<entry key="REDIRECT_TO_SUMMARY" value-ref="REDIRECT_TO_SUMMARY"/>
+			</map>
+		</property>
+		<property name="checkoutProgressBar">
+			<map merge="true">
+				<entry key="1" value-ref="annexCloudDeliveryAddressCheckoutStep"/>
+				<entry key="2" value-ref="annexCloudDeliveryMethodCheckoutStep"/>
+				<entry key="3" value-ref="annexCloudPointRedemptionCheckoutStep"/>
+				<entry key="4" value-ref="annexCloudPaymentMethodCheckoutStep"/>
+				<entry key="5" value-ref="annexCloudSummaryCheckoutStep"/>
+			</map>
+		</property>
+	</bean>
+
+	
+	<bean id="annexCloudCheckoutFlowGroupResponsiveMapMergeDirective" parent="mapMergeDirective" depends-on="checkoutFlowGroupMap">
+		<property name="key" value="annexCloudCheckoutGroup"/>
+		<property name="value" ref="annexCloudCheckoutGroup"/>
+	</bean>
+
+	<!-- Redirects -->
+
+ 
+	<bean id="REDIRECT_TO_ANNEX_CLOUD_POINT_REDEMPTION" class="java.lang.String">
+		<constructor-arg value="redirect:/checkout/multi/point-redemption/add"/>
+	</bean>
+
+</beans>

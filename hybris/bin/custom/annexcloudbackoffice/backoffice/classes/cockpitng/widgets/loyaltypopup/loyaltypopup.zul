@@ -1,0 +1,15 @@
+<widget xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.zkoss.org/2005/zul">
+	<style src="${wr}/default.css"/>
+	<grid>
+	<rows>
+	<row spans="5">Select from Annex Cloud sites ?</row>
+	<row>
+		<combobox id="combobox"  autodrop="true">
+		</combobox>
+    </row>
+   </rows>
+	</grid>
+	<div style="width:1000px;height:600px">
+		<iframe id="iframe" width="1000px" height="1000px" style="border: 1px solid gray" />
+	</div>
+</widget>

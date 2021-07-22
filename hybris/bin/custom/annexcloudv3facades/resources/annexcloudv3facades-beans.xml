@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+ [y] hybris Platform
+
+ Copyright (c) 2018 SAP SE or an SAP affiliate company. All rights reserved.
+
+ This software is the confidential and proprietary information of SAP
+ ("Confidential Information"). You shall not disclose such Confidential
+ Information and shall use it only in accordance with the terms of the
+ license agreement you entered into with SAP.
+-->
+<!--
+	ATTENTION: This is just an example file. You have to edit it according to your needs.
+-->
+
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="beans.xsd">
+    <bean class="com.annex.cloud.data.customer.AnnexCloudData">
+        <property name="userId" type="String"/>
+        <property name="token" type="String"/>
+        <property name="site" type="String"/>
+        <property name="loginType" type="String"/>
+        <property name="active" type="Boolean"/>
+        <property name="templateId" type="String"/>
+    </bean>
+    
+    <bean class="com.annex.cloud.data.reward.AnnexRewardData">
+        <property name="rewardId" type="String"/>
+        <property name="rewardName" type="String"/>
+        <property name="deductAmount" type="Double"/>
+    </bean>
+    
+    <bean class="com.annex.cloud.product.data.AnnexCloudProductDetailsData" >
+		<property name="cost" type="Double" />
+		<property name="earnPoints" type="Double" />
+		<property name="tierMultiplier" type="String" />
+	</bean>
+    
+    <bean class="com.annex.cloud.data.reward.AnnexUserPointsData">
+		<property name="availablePoints" type="String" /> 
+		<property name="pointsToExpireDate" type="String" /> 
+		<property name="creditsToCurrencyRatio" type="String" />
+		<property name="creditsToCurrencyValue" type="de.hybris.platform.commercefacades.product.data.PriceData" />
+		<property name="maxApplicableCreditOnCart" type="Double" />
+		<property name="appliedPointsOnCart" type="Double" />
+		<property name="pointsRedemtionType" type="com.annexcloud.enums.PointRedemptionType" />
+    </bean>
+ 
+	<bean class="com.annex.cloud.v3.request.ACSaleTrackingProductRequest">
+		<property name="product_url" 			type="String"/>
+		<property name="category_name" 			type="String"/>
+		<property name="category_id" 			type="String"/>
+		<property name="price" 					type="String"/>
+		<property name="qty" 					type="String"/>
+		<property name="id" 					type="String"/>
+		<property name="product_image_url" 		type="String"/>
+		<property name="product_name" 			type="String"/>
+	</bean>	
+		
+	<bean	class="com.annex.cloud.v3.request.ACSaleTrackingRequest" extends="com.annex.cloud.loyalty.jwt.ACJwtRequest">
+		 <property name="site_id"               type="String" />                                                  
+		 <property name="order_id"              type="String" />                                
+		 <property name="sale_amount"           type="String" />                                
+		 <property name="email_id"              type="String" />                                
+		 <property name="name"                  type="String" />                                
+		 <property name="coupon"                type="java.util.List&lt;String>" />                                
+		 <property name="exclude_products"      type="java.util.Map&lt;String,com.annex.cloud.v3.request.ACSaleTrackingProductRequest>" />     
+	</bean>
+	
+<!-- 	SOLR Server Product data bean  -->
+	<bean class="de.hybris.platform.commercefacades.product.data.ProductData">
+		<property name="pointsValue" type="java.lang.String"/>
+	</bean>
+	<bean class="de.hybris.platform.commercefacades.user.data.RegisterData">
+		<property name="annexCloudLoyalty" type="boolean" />
+		<property name="annexCloudNewsLetter" type="boolean"/>
+	</bean>
+
+	
+	<!--enum types beans added-->
+	<enum class="com.annex.cloud.sitedetails.ACSiteDetailsOptions">
+		<value>ANNEX_USER_DETAILS</value>
+		<value>ANNEX_SITE_DETAILS</value>
+	</enum>
+</beans>

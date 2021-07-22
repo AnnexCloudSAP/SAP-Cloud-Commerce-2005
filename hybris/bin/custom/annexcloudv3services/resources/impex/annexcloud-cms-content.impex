@@ -1,0 +1,211 @@
+#Impex to upload AnnexCloud In BaseStore
+
+$productCatalog = apparelProductCatalog
+$contentCatalog = apparel-ukContentCatalog
+$contentCV = catalogVersion(CatalogVersion.catalog(Catalog.id[default=$contentCatalog]), CatalogVersion.version[default=Staged])[default=$contentCatalog:Staged]
+$defaultLanguage = en
+$storeUid = apparel-uk
+$siteUid = apparel-uk
+$lang = en
+ 	        
+$annexSiteId=27235020
+$annexSiteCode=SAPCCLTv3
+$annexSiteTemplateId=379
+$annexorderProcessCode=order-process
+$annexCheckoutFlowGroup=annexCloudCheckoutGroup
+
+############################################ Set the Annex cloud site credentials  ###############################################################################################################################################################
+INSERT_UPDATE AnnexCloud;code		    ;siteId[unique=true]  ;templateId                 ;baseStore(uid)           ;loyaltyProgramType(code);pointRedemptionType(code)
+						 ;$annexSiteCode;$annexSiteId         ;$annexSiteTemplateId       ;$storeUid     ;EXPLICIT		        ;COUPON
+##################################################################################################################################################################################################################################################
+
+#Set annex checkout group to base store
+#Set annex order flow to base store
+#Set annex site credentials to Base store
+############################################# Set annex cloud credentials into base store ##################################################################################################################
+INSERT_UPDATE BaseStore;uid[unique=true];annexCloud(siteId);submitOrderProcessCode;checkoutFlowGroup
+;$siteUid;$annexSiteId;$annexorderProcessCode;$annexCheckoutFlowGroup
+
+###############################################################################################################################################################
+
+########################### Loyalty Enrollment Impex ############################
+INSERT_UPDATE JspIncludeComponent; $contentCV[unique = true]; uid[unique = true]         ; name                         ; page                                                                                ; actions(uid, $contentCV); &componentRef
+#                                 ;                          ; LoyaltyOptoutComponent ; Loyalty Opt Out Component ; /WEB-INF/views/addons/annexcloudaddon/responsive/cms/loyaltyoptoutcomponent.jsp 		   ;                         ; LoyaltyOptoutComponent
+
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef)
+#                         ;;Section5Slot-Homepage;Section5 Slot for Homepage;true;LoyaltyEnrollmentComponent
+#						  ;;Section5Slot-Homepage;Section5 Slot for Homepage;true;
+
+##########################End#####################################################
+# Import modulegen config properties into impex macros
+UPDATE GenericItem[processor = de.hybris.platform.commerceservices.impex.impl.ConfigPropertyImportProcessor]; pk[unique = true]
+$jarResourceCms = $config-jarResourceCmsValue
+
+# Preview Image for use in the CMS Cockpit for special ContentPages
+INSERT_UPDATE Media; $contentCV[unique = true]; code[unique = true]                ; mime     ; realfilename                           ; @media[translator = de.hybris.platform.impex.jalo.media.MediaDataTranslator][forceWrite = true]
+                   ;                          ; ContentPageModel__function_preview ; text/gif ; ContentPageModel__function_preview.gif ; $jarResourceCms/preview-images/ContentPageModel__function_preview.gif
+
+# Functional Content Pages
+INSERT_UPDATE ContentPage; $contentCV[unique = true]; uid[unique = true]; name               ; masterTemplate(uid, $contentCV); label; defaultPage[default = 'true']; approvalStatus(code)[default = 'approved']; homepage[default = 'false']; previewImage(code, $contentCV)[default = 'ContentPageModel__function_preview']
+                         ;                          ; loyalty-point     ; Loyalty Point Page ; AccountPageTemplate            ; loyalty-point
+# Content Pages
+INSERT_UPDATE ContentPage; $contentCV[unique = true]; uid[unique = true]; title[lang = $lang]
+                         ;                          ; loyalty-point     ; "Loyalty Point"
+
+INSERT_UPDATE JspIncludeComponent; $contentCV[unique = true]; uid[unique = true]    ; name                    ; page                                                                                          ; actions(uid, $contentCV); &componentRef
+                                 ;                          ; LoyaltyPointComponent ; Loyalty Point Component ; /WEB-INF/views/addons/annexcloudaddon/responsive/pages/account/annexLoyaltyPointDashboard.jsp ;                         ; LoyaltyPointComponent
+
+# ContentSlot
+INSERT_UPDATE ContentSlot; $contentCV[unique = true]; uid[unique = true]            ; name                                     ; active; cmsComponents(&componentRef); ; ;
+                         ;                          ; SideContentSlot-loyalty-point ; Side Content Slot for Loyalty Point Page ; true  ;                             ; ; ;
+                         ;                          ; BodyContentSlot-loyalty-point ; Body Content Slot for Loyalty Point Page ; true  ; LoyaltyPointComponent       ; ; ;
+
+# ContentSlotForPage
+INSERT_UPDATE ContentSlotForPage; $contentCV[unique = true]; uid[unique = true]            ; position[unique = true]; page(uid, $contentCV)[unique = true][default = 'loyalty-point']; contentSlot(uid, $contentCV)[unique = true]; ; ;
+                                ;                          ; SideContentSlot-loyalty-point ; SideContent            ;                                                                ; SideContentSlot-loyalty-point              ; ; ;
+                                ;                          ; BodyContentSlot-loyalty-point ; BodyContent            ;                                                                ; BodyContentSlot-loyalty-point              ; ; ;
+
+# create cms link components for my account pages
+INSERT_UPDATE CMSLinkComponent; $contentCV[unique = true]; uid[unique = true]       ; name                     ; url                       ; &linkRef                 ; target(code)[default = 'sameWindow']
+                              ;                          ; AccountLoyaltyPointsLink ; AccountLoyaltyPointsLink ; /my-account/loyalty-point ; AccountLoyaltyPointsLink ;
+
+# CMS Link Components
+INSERT_UPDATE CMSLinkComponent; $contentCV[unique = true]; uid[unique = true]       ; linkName[lang = $lang]
+                              ;                          ; AccountLoyaltyPointsLink ; "My Loyalty Dashboard"
+
+# create navigation root node for my account & child nodes for the root node
+INSERT_UPDATE CMSNavigationNode; uid[unique = true]    ; $contentCV[unique = true]; name              ; parent(uid, $contentCV); links(&linkRef); &nodeRef
+                               ; AccountLoyaltyNavNode ;                          ; My Loyalty Points ; MyAccountNavNode       ;                ; AccountLoyaltyNavNode
+
+# create cms navigation entry for nvaigation child nodes
+INSERT_UPDATE CMSNavigationEntry; uid[unique = true]           ; $contentCV[unique = true]; name                         ; navigationNode(&nodeRef); item(&linkRef)           ;
+                                ; MyLoyaltyAccountNavNodeEntry ;                          ; MyLoyaltyAccountNavNodeEntry ; AccountLoyaltyNavNode   ; AccountLoyaltyPointsLink ;
+############################################################################LOYALTY DASHBOARD END#######################################################
+
+
+
+
+#################################VC Setup Start #########################################################
+
+
+########################### Image Slider Home Page Component ############################
+INSERT_UPDATE AnnexCloudImageSliderHomePageComponent; $contentCV[unique = true]; uid[unique = true]                     ; name                               ; pageId; &componentRef;
+                                                    ;                          ; AnnexCloudImageSliderHomePageComponent ;Image Slider Home Page Component ; 1     ; AnnexCloudImageSliderHomePageComponent
+
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef)
+                         ;;Section5Slot-Homepage;Section5 Slot for Homepage;true;AnnexCloudImageSliderHomePageComponent
+						 
+########################### Image Slider Category Page Component ############################
+
+INSERT_UPDATE JspIncludeComponent; $contentCV[unique = true]; uid[unique = true]               ; name                   ; page                                                                                              ; actions(uid, $contentCV); pageId; &componentRef
+                                 ;                          ; ImageSliderCategoryPageComponent ; Image Slider Category Page Component ; /WEB-INF/views/addons/annexcloudaddon/responsive/pages/visualcommerce/imageSliderCategoryPage.jsp ;                         ; 3     ; ImageSliderCategoryPageComponent
+
+# ContentSlot 
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef);;;
+;;Section3Slot-ACCategory;Section4 Slot for ACCategory Page;true;ImageSliderCategoryPageComponent;;;
+ 
+# ContentSlotForPage 
+INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true][default='productGrid'];contentSlot(uid,$contentCV)[unique=true];;;
+;;Section5-ACCategory;Section4;;Section3Slot-ACCategory;;;
+
+
+########################### Image Slider Product Detail Page Component ############################
+
+INSERT_UPDATE JspIncludeComponent; $contentCV[unique = true]; uid[unique = true]                    ; name                                  ; page                                                                                                   ; actions(uid, $contentCV); pageId; &componentRef
+                                 ;                          ; ImageSliderProductDetailPageComponent ; Image Slider Product Detail Component ; /WEB-INF/views/addons/annexcloudaddon/responsive/pages/visualcommerce/imageSliderProductDetailPage.jsp ;                         ; 2     ; ImageSliderProductDetailPageComponent
+
+
+######################################## GALLERY PAGE START ############################################
+
+# Functional Content Pages
+INSERT_UPDATE ContentPage; $contentCV[unique = true]; uid[unique = true]; name         ; masterTemplate(uid, $contentCV); label; defaultPage[default = 'true']; approvalStatus(code)[default = 'approved']; homepage[default = 'false'];
+                         ;                          ; galleryPage       ; Gallery Page ; AccountPageTemplate            ; galleryPage
+
+
+# Content Pages
+INSERT_UPDATE ContentPage; $contentCV[unique = true]; uid[unique = true]; title[lang = $lang]
+                         ;                          ; galleryPage       ; "Gallery Page"
+
+########################### Gallery Page Component ############################
+
+INSERT_UPDATE JspIncludeComponent; $contentCV[unique = true]; uid[unique = true]   ; name                   ; page                                                                                  ; actions(uid, $contentCV); pageId; &componentRef
+                                 ;                          ; GalleryPageComponent ; Gallery Page Component ; /WEB-INF/views/addons/annexcloudaddon/responsive/pages/visualcommerce/galleryPage.jsp ;                         ; 7     ; GalleryPageComponent
+
+# ContentSlot
+INSERT_UPDATE ContentSlot; $contentCV[unique = true]; uid[unique = true]          ; name                               ; active; cmsComponents(&componentRef); ; ;
+                         ;                          ; BodyContentSlot-galleryPage ; Body Content Slot for Gallery Page ; true  ; GalleryPageComponent        ; ; ;
+
+# ContentSlotForPage
+INSERT_UPDATE ContentSlotForPage; $contentCV[unique = true]; uid[unique = true]          ; position[unique = true]; page(uid, $contentCV)[unique = true][default = 'galleryPage']; contentSlot(uid, $contentCV)[unique = true]; ; ;
+                                ;                          ; BodyContentSlot-galleryPage ; BodyContent            ;                                                              ; BodyContentSlot-galleryPage                ; ; ;
+
+
+######################################################################################################################################
+
+# create cms link components for my account pages
+INSERT_UPDATE CMSLinkComponent; $contentCV[unique = true]; uid[unique = true]; name            ; url                  ; &linkRef        ; target(code)[default = 'sameWindow']
+                              ;                          ; GalleryPageLink   ; GalleryPageLink ; /picture/galleryPage ; GalleryPageLink ;
+
+
+# CMS Link Components
+INSERT_UPDATE CMSLinkComponent; $contentCV[unique = true]; uid[unique = true]; linkName[lang = $lang]
+                              ;                          ; GalleryPageLink   ; "Gallery Page"
+
+
+######################################## GALLERY PAGE END ############################################
+
+
+
+#################################VC Setup END #########################################################
+
+
+
+
+$START_USERRIGHTS;;;;;;;;;
+Type;UID;MemberOfGroups;Password;Target;read;change;create;remove;change_perm
+UserGroup;customersupportmanagergroup;;;;;;;;
+ 
+;;;;AnnexCloudCustomer;+;+;+;+
+;;;;AnnexCloudUserPointDetails;+;+;+;+
+;;;;AnnexCloudUserPointsByCSRTransactionHistory;+;+;+;+
+;;;;AnnexCloud;+;+;+;+
+$END_USERRIGHTS;;;;;
+
+
+$START_USERRIGHTS;;;;;;;;;
+Type;UID;MemberOfGroups;Password;Target;read;change;create;remove;change_perm
+UserGroup;customersupportagentgroup;;;;;;;;
+ 
+;;;;AnnexCloudCustomer;+;+;+;+
+;;;;AnnexCloudUserPointDetails;+;+;+;+
+;;;;AnnexCloudUserPointsByCSRTransactionHistory;+;+;+;+
+;;;;AnnexCloud;+;+;+;+
+$END_USERRIGHTS;;;;;
+
+# component in centerRight Cart Totals Component
+INSERT_UPDATE JspIncludeComponent;$contentCV[unique=true];uid[unique=true];name;page;actions(uid,$contentCV);&componentRef
+;;AnnexCloudCartTotalsComponent;Cart Totals Display Component;/WEB-INF/views/addons/annexcloudaddon/responsive/pages/cart/annexCloudcartTotalsDisplay.jsp;;AnnexCloudCartTotalsComponent
+
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef)
+;;CenterRightContentSlot-cartPage;Center Right Content Slot for Cart Page;true;AnnexCloudCartTotalsComponent
+
+# component in centerRight Account Order Details Totals Component
+INSERT_UPDATE JspIncludeComponent;$contentCV[unique=true];uid[unique=true];name;page;actions(uid,$contentCV);&componentRef
+;;AnnexCloudAccountOrderDetailsTotalsComponent;Account Order Details Totals Component;/WEB-INF/views/addons/annexcloudaddon/responsive/pages/account/annexCloudAccountOrderDetailOrderTotals.jsp;;AnnexCloudAccountOrderDetailsTotalsComponent
+
+INSERT_UPDATE JspIncludeComponent;$contentCV[unique=true];uid[unique=true];name;page;actions(uid,$contentCV);&componentRef
+;;AccountOrderDetailsHeadlineComponent;Account Order Details Headline Component;accountOrderDetailHeadline.jsp;;AccountOrderDetailsHeadlineComponent
+;;AccountOrderDetailsShippingComponent;Account Order Details Shipping Info Component;accountOrderDetailShippingInfo.jsp;;AccountOrderDetailsShippingComponent
+;;AccountOrderDetailsItemsComponent;Account Order Details Items Info Component;accountOrderDetailItems.jsp;;AccountOrderDetailsItemsComponent
+
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef);;;
+;;BodyContent-orderdetail;Body Content Slot for My Account Order Details;true;AccountOrderDetailsHeadlineComponent,AnnexCloudAccountOrderDetailsTotalsComponent,AccountOrderDetailsShippingComponent,AccountOrderDetailsItemsComponent;;;
+
+# Create PageTemplates
+# These define the layout for pages
+# "FrontendTemplateName" is used to define the JSP that should be used to render the page for pages with multiple possible layouts.
+# "RestrictedPageTypes" is used to restrict templates to page types
+INSERT_UPDATE PageTemplate;$contentCV[unique=true];uid[unique=true];name;frontendTemplateName;restrictedPageTypes(code);active[default=true]
+;;ProductDetailsPageTemplate;Product Details Page Template;addon:/annexcloudaddon/pages/product/annexProductLayout1Page;ProductPage
+#;;ProductDetailsPageTemplate;Product Details Page Template;/product/annexProductLayout1Page;ProductPage
+

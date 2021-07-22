@@ -1,0 +1,40 @@
+$annexSiteCode=SAPCCLTv3
+# acSegmentId is configured in Annex Cloud and assigned in SAP.
+INSERT_UPDATE CxSegment; code[unique = true] ;acSegmentId ; description                            
+                       ;CATEGORY Burton      ;550         ;                                        
+                       ;CATEGORY 250600      ;551         ; Users who browse Shorts products often 
+                       ;CATEGORY skigear     ;552         ;                                        
+                       ;CATEGORY sandals     ;553         ;                                        
+                       ;BeachwearLover       ;554         ;                                        
+                       ;FlannelShirtsFan     ;568         ;                                        
+                       ;FlipFlopsEnthusiast  ;569         ;                                        
+                       ;ShadesConnoisseur    ;570         ;                                       
+                       ;BeltsOldHand         ;571         ;                                        
+                       ;HatsFan              ;572         ;                                        
+					   ;VIPGold              ;555         ;                                        
+                       ;VIPSilver            ;556         ;                                        
+                       ;VIPBronze            ;557         ;                                        
+                       ;Women                ;558         ;                                        
+                       ;Men                  ;559         ;                                        
+                       ;20-29                ;560         ;                                        
+                       ;30-39                ;561         ;                                        
+                       ;40-49                ;562         ;                                        
+                       ;50-59                ;563         ;                                        
+                       ;60-69                ;564         ;                                        
+                       ;70-79                ;565         ;                                        
+                       ;80-89                ;566         ;                                        
+                       ;90-99                ;567         ;	                                      
+
+INSERT_UPDATE ACSyncUserSegmentCronJob;code[unique=true];job(code);sessionLanguage(isoCode)[default=en];active;acSite(code)
+                     ; acSyncSegmentsCronJob ; acSyncSegmentJobPerformable ;en; true;$annexSiteCode
+					 
+
+INSERT_UPDATE Trigger; cronJob(code)[unique = true]; second; minute; hour; day; month; year; relative; active; maxAcceptableDelay
+                     ; acSyncSegmentsCronJob     ; 0     ; 1     ; 0   ; -1 ; -1   ; -1  ; false   ; true  ; 600
+                                   
+INSERT_UPDATE ACSyncUserSegmentCronJob;code[unique=true];job(code);sessionLanguage(isoCode)[default=en];active;acSite(code);sessionCurrency(isocode)
+                     ; acSyncProductsCronJob ;acSyncProductsJobPerformable ;en; true;$annexSiteCode;GBP
+
+INSERT_UPDATE Trigger; cronJob(code)[unique = true]; second; minute; hour; day; month; year; relative; active; maxAcceptableDelay
+                     ; acSyncProductsCronJob     ; 0     ; 1     ; 0   ; -1 ; -1   ; -1  ; false   ; true  ; 600					 
+					 

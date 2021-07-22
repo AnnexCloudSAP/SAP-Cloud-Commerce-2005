@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ [y] hybris Platform
+
+ Copyright (c) 2018 SAP SE or an SAP affiliate company. All rights reserved.
+
+ This software is the confidential and proprietary information of SAP
+ ("Confidential Information"). You shall not disclose such Confidential
+ Information and shall use it only in accordance with the terms of the
+ license agreement you entered into with SAP.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop.xsd
+           http://www.springframework.org/schema/util
+		   http://www.springframework.org/schema/util/spring-util.xsd">
+		   
+
+
+    <bean id="abstractV3RestIntegrationService" 	  class="com.annexcloud.service.impl.AbstractV3RestIntegrationService">
+        <property name="restTemplate" 			     ref="restTemplate"/>
+        <property name="responseErrorHandler"        ref="responseErrorHandler" />
+    </bean>
+
+	<alias name="defaultRestTemplate" alias="restTemplate"/>
+    <bean id="defaultRestTemplate" 	  class="org.springframework.web.client.RestTemplate" />
+    
+   	<alias name="defaultResponseErrorHandler" alias="responseErrorHandler"/>
+    <bean id="defaultResponseErrorHandler"    class="com.annexcloud.errorhandler.ACRestTemplateResponseErrorHandler"  />
+    
+	<util:map id="annexCloudRestServiceHandlers"
+              key-type="java.lang.String"
+              value-type="com.annexcloud.service.impl.DefaultAnnexCloudV3RestIntegrationService">
+            <entry value-ref="annexCLoudCartPointV3Service">
+                    <key>
+                        <value type="java.lang.String">AnnexCLoudCartPoint</value>
+                    </key>
+                </entry>
+                <entry value-ref="annexCloudUserPointV3Service">
+                    <key>
+                        <value type="java.lang.String">AnnexCloudUserPoint</value>
+                    </key>
+                </entry>
+                <entry value-ref="annexCloudProductPointPurchaseV3Service">
+                    <key>
+                        <value type="java.lang.String">AnnexCloudProductPoint</value>
+                    </key>
+                </entry>
+                <entry value-ref="annexCloudCustomActionLoyaltyV3Service">
+                    <key>
+                        <value type="java.lang.String">AnnexCloudCustomActionAPI</value>
+                    </key>
+                </entry>
+                <entry value-ref="annexCloudCreateUserV3Service">
+                    <key>
+                        <value type="java.lang.String">AnnexCloudCreateUser</value>
+                    </key>
+                </entry>
+                <entry value-ref="annexCloudUpdateUserV3Service">
+                    <key>
+                        <value type="java.lang.String">AnnexCloudUpdateUser</value>
+                    </key>
+                </entry>
+                 <entry value-ref="annexCloudCreateOrderLoyaltyV3Service">
+                    <key>
+                        <value type="java.lang.String">AnnexCloud001</value>
+                    </key>
+                </entry>
+                <entry value-ref="annexCloudReturnOrderLoyaltyV3Service">
+                    <key>
+                        <value type="java.lang.String">AnnexCloudReturnAPI</value>
+                    </key>
+                </entry>
+                <entry value-ref="annexCloudRewardListV3Service">
+                    <key>
+                        <value type="java.lang.String">AnnexCloudRewardList</value>
+                    </key>
+                </entry>
+                 <entry value-ref="annexCloudUserActiveCheckV3Service">
+                    <key>
+                        <value type="java.lang.String">AnnexCloudUserActiveStatusCheck</value>
+                    </key>
+                </entry>
+                 <entry value-ref="annexCloudUsedRewardListV3Service">
+                    <key>
+                        <value type="java.lang.String">AnnexCloudUsedRewardList</value>
+                    </key>
+                </entry>
+                 <entry value-ref="annexCloudUserActivityService">
+                    <key>
+                        <value type="java.lang.String">UserActivityAPI</value>
+                    </key>
+                </entry>
+                 <entry value-ref="annexCloudSegmentDetailsService">
+                    <key>
+                        <value type="java.lang.String">SegmentDetailsAPI</value>
+                    </key>
+                </entry> 
+                  <entry value-ref="annexCloudStoreDetailsService">
+                    <key>
+                        <value type="java.lang.String">StoreDetailsAPI</value>
+                    </key>
+                </entry> 
+                 <entry value-ref="annexCloudCampaignDetailsService">
+                    <key>
+                        <value type="java.lang.String">CampaignDetailsAPI</value>
+                    </key>
+                </entry>
+                
+                 <entry value-ref="annexCloudAllActionDetailsService">
+                    <key>
+                        <value type="java.lang.String">AllActionDetailsAPI</value>
+                    </key>
+                </entry>
+                <entry value-ref="annexCloudTierInformationService">
+                    <key>
+                        <value type="java.lang.String">TierInformationAPI</value>
+                    </key>
+                </entry>
+                <entry value-ref="acUserActionDetailsService">
+                    <key>
+                        <value type="java.lang.String">UserActionDetailsAPI</value>
+                    </key>
+                </entry>
+                <entry value-ref="acCreateSegmentService">
+                    <key>
+                        <value type="java.lang.String">AnnexCloudCreateSegmentAPI</value>
+                    </key>
+                </entry>
+                <entry value-ref="acUpdateSegmentService">
+                    <key>
+                        <value type="java.lang.String">AnnexCloudUpdateSegmentAPI</value>
+                    </key>
+                </entry>
+                <entry value-ref="acCreateBulkProductsService">
+                    <key>
+                        <value type="java.lang.String">BulkProductsAPI</value>
+                    </key>
+                </entry>
+                <entry value-ref="annexCloudUpdateProductV3Service">
+                    <key>
+                        <value type="java.lang.String">UpdateProductAPI</value>
+                    </key>
+                </entry>
+                <entry value-ref="acCreateBulkPointService">
+                    <key>
+                        <value type="java.lang.String">BulkPointAPI</value>
+                    </key>
+                </entry>
+                <entry value-ref="acCreateBulkTierService">
+                    <key>
+                        <value type="java.lang.String">BulkTierAPI</value>
+                    </key>
+                </entry>
+    </util:map>
+
+   	<alias name="defaultAnnexCloudRestSystemV3ServiceFactory" alias="annexCloudRestSystemV3ServiceFactory"/>
+    <bean name="defaultAnnexCloudRestSystemV3ServiceFactory"  class="com.annexcloud.service.impl.DefaultAnnexCloudSystemServiceFactory">
+        <property name="systemServices" ref="annexCloudRestServiceHandlers" />
+    </bean>
+
+    <bean id="annexCloudUserActiveCheckV3Service" class="com.annexcloud.service.impl.DefaultAnnexCloudV3RestIntegrationService" parent="abstractV3RestIntegrationService">
+        <property name="response" 					 ref="acUserActiveStatusResponse"/>
+        <property name="httpMethod"                  value="GET" />
+        <property name="url_properties"              value="user.active.status.v3.url" />
+    </bean>
+
+    <bean id="annexCLoudCartPointV3Service" class="com.annexcloud.service.impl.DefaultAnnexCloudV3RestIntegrationService" parent="abstractV3RestIntegrationService" >
+        <property name="response" 					 ref="acCartCalculationResponse"/>
+        <property name="httpMethod"                  value="POST" />
+        <property name="url_properties"              value="user.cart.v3.url" />
+    </bean>
+
+    <bean id="annexCloudUserPointV3Service" class="com.annexcloud.service.impl.DefaultAnnexCloudV3RestIntegrationService" parent="abstractV3RestIntegrationService" >
+        <property name="response" 					 ref="acuserPointResponse"/>
+        <property name="httpMethod" 				 value="GET" />
+        <property name="url_properties"              value="getuserpoints.v3.url" />
+    </bean>
+    <bean id="annexCloudRewardListV3Service" class="com.annexcloud.service.impl.DefaultAnnexCloudV3RestIntegrationService" parent="abstractV3RestIntegrationService" >
+        <property name="response" 					 ref="acRewardListResponse"/>
+        <property name="httpMethod" 				 value="GET" />
+        <property name="url_properties"              value="create.getrewards.v3.url" />
+    </bean>
+
+    <bean id="annexCloudUpdateProductV3Service" class="com.annexcloud.service.impl.DefaultAnnexCloudV3RestIntegrationService" parent="abstractV3RestIntegrationService" >
+        <property name="response" 					 ref="acUpdateProductResponse"/>
+        <property name="httpMethod" 				 value="PATCH" />
+        <property name="url_properties"              value="update.product.sync.url" />
+    </bean>
+
+
+    <bean id="annexCloudCreateUserV3Service" class="com.annexcloud.service.impl.DefaultAnnexCloudV3RestIntegrationService" parent="abstractV3RestIntegrationService" >
+        <property name="response" 					 ref="acCreateUserResponse"/>
+        <property name="httpMethod"  				 value="POST" />
+        <property name="url_properties"              value="create.user.v3.url" />
+    </bean>
+
+    <bean id="annexCloudUpdateUserV3Service" class="com.annexcloud.service.impl.DefaultAnnexCloudV3RestIntegrationService" parent="abstractV3RestIntegrationService" >
+        <property name="response" 					 ref="acUpdateUserResponse"/>
+        <property name="httpMethod"  				 value="PATCH" />
+        <property name="url_properties"              value="user.active.status.v3.url" />
+    </bean>
+    <bean id="annexCloudCustomActionLoyaltyV3Service" class="com.annexcloud.service.impl.DefaultAnnexCloudV3RestIntegrationService" parent="abstractV3RestIntegrationService" >
+        <property name="response" 					 ref="acCustomActionResponse"/>
+        <property name="httpMethod" 				 value="POST" />
+        <property name="url_properties"        		 value="custom.action.v3.url" />
+    </bean>
+
+    <bean id="annexCloudCreateOrderLoyaltyV3Service" class="com.annexcloud.service.impl.DefaultAnnexCloudV3RestIntegrationService" parent="abstractV3RestIntegrationService" >
+        <property name="response" 					 ref="acOrderResponse"/>
+        <property name="httpMethod" 				 value="POST" />
+        <property name="url_properties"        		 value="create.order.v3.url" />
+    </bean>
+
+  <!--   annexCloudReturnOrderLoyaltyService -->
+
+    <bean id="annexCloudReturnOrderLoyaltyV3Service" class="com.annexcloud.service.impl.DefaultAnnexCloudV3RestIntegrationService" parent="abstractV3RestIntegrationService" >
+        <property name="response" 					 ref="acReturnOrderResponse"/>
+        <property name="httpMethod" 				 value="PATCH" />
+        <property name="url_properties"        		 value="return.order.v3.url" />
+    </bean>
+
+    <bean id="annexCloudProductPointPurchaseV3Service" class="com.annexcloud.service.impl.DefaultAnnexCloudV3RestIntegrationService" parent="abstractV3RestIntegrationService" >
+        <property name="response" 					 ref="acProductPointResponse"/>
+        <property name="httpMethod" 				 value="POST" />
+        <property name="url_properties"        		 value="create.getproductspurchasepoints.v3.url" />
+    </bean>
+
+    <bean id="annexCloudUsedRewardListV3Service" class="com.annexcloud.service.impl.DefaultAnnexCloudV3RestIntegrationService" parent="abstractV3RestIntegrationService" >
+        <property name="response" 					 ref="acUsedRewardListResponse"/>
+        <property name="httpMethod" 				 value="GET" />
+        <property name="url_properties"        		 value="used.rewards.v3.url" />
+    </bean>
+
+    <bean id="annexCloudUserActivityService" class="com.annexcloud.service.impl.DefaultAnnexCloudV3RestIntegrationService" parent="abstractV3RestIntegrationService" >
+        <property name="response" 					 ref="acUserActivityResponse"/>
+        <property name="httpMethod" 				 value="GET" />
+        <property name="url_properties"        		 value="user.activity.url" />
+    </bean>
+
+    <bean id="annexCloudSegmentDetailsService" class="com.annexcloud.service.impl.DefaultAnnexCloudV3RestIntegrationService" parent="abstractV3RestIntegrationService" >
+        <property name="response" 					 ref="acSegmentDetailsResponse"/>
+        <property name="httpMethod" 				 value="GET" />
+        <property name="url_properties"        		 value="user.segment.url" />
+    </bean>
+
+    <bean id="annexCloudStoreDetailsService" class="com.annexcloud.service.impl.DefaultAnnexCloudV3RestIntegrationService" parent="abstractV3RestIntegrationService" >
+        <property name="response" 					 	ref="acStoreDetailsResponse"/>
+        <property name="httpMethod" 				 	value="GET" />
+        <property name="url_properties"        		    value="user.store.url" />
+    </bean>
+
+    <bean id="annexCloudCampaignDetailsService" class="com.annexcloud.service.impl.DefaultAnnexCloudV3RestIntegrationService" parent="abstractV3RestIntegrationService" >
+        <property name="response" 					 	ref="acCampaignDetailResponse"/>
+        <property name="httpMethod" 				 	value="GET" />
+        <property name="url_properties"        		    value="user.campaign.url" />
+    </bean>
+
+    <bean id="annexCloudAllActionDetailsService" class="com.annexcloud.service.impl.DefaultAnnexCloudV3RestIntegrationService" parent="abstractV3RestIntegrationService" >
+        <property name="response" 					 	ref="acAllActionDetailResponse"/>
+        <property name="httpMethod" 				 	value="GET" />
+        <property name="url_properties"        		    value="all.action.details.url" />
+    </bean>
+
+    <bean id="annexCloudTierInformationService" class="com.annexcloud.service.impl.DefaultAnnexCloudV3RestIntegrationService" parent="abstractV3RestIntegrationService" >
+        <property name="response" 					 	ref="acTierInformationResponse"/>
+        <property name="httpMethod" 				 	value="GET" />
+        <property name="url_properties"        		    value="user.tier.info.url" />
+    </bean>
+    <!--  -->
+    <bean id="acUserActionDetailsService" class="com.annexcloud.service.impl.DefaultAnnexCloudV3RestIntegrationService" parent="abstractV3RestIntegrationService">
+        <property name="response" 					 	ref="acUserActionDetailsResponse"/>
+        <property name="httpMethod" 				 	value="POST" />
+        <property name="url_properties"        		    value="user.action.details.url" />
+    </bean>
+
+    <bean id="acUpdateSegmentService" class="com.annexcloud.service.impl.DefaultAnnexCloudV3RestIntegrationService" parent="abstractV3RestIntegrationService">
+        <property name="response" 					 	ref="acUpdateSegmentResponse"/>
+        <property name="httpMethod" 				 	value="PATCH" />
+        <property name="url_properties"        		    value="update.segment.url" />
+        <!-- update.segment.url -->
+    </bean>
+
+    <bean id="acCreateSegmentService" class="com.annexcloud.service.impl.DefaultAnnexCloudV3RestIntegrationService" parent="abstractV3RestIntegrationService">
+        <property name="response" 					 	ref="acCreateSegmentResponse"/>
+        <property name="httpMethod" 				 	value="POST" />
+        <property name="url_properties"        		    value="create.segment.url" />
+        <!-- create.segment.url -->
+    </bean>
+
+    <bean id="acCreateBulkProductsService" class="com.annexcloud.service.impl.DefaultAnnexCloudV3RestIntegrationService" parent="abstractV3RestIntegrationService">
+        <property name="response" 					 	ref="acUpdateProductResponse"/>
+        <property name="httpMethod" 				 	value="POST" />
+        <property name="url_properties"        		    value="bulk.product.sync.url" />
+        <!-- create.segment.url -->
+    </bean>
+
+    <bean id="acCreateBulkPointService" class="com.annexcloud.service.impl.DefaultAnnexCloudV3RestIntegrationService" parent="abstractV3RestIntegrationService">
+        <property name="response" 					 	ref="acuserPointResponse"/>
+        <property name="httpMethod" 				 	value="POST" />
+        <property name="url_properties"        		    value="bulk.point.sync.url" />
+        <!-- create.segment.url -->
+    </bean>
+
+    <bean id="acCreateBulkTierService" class="com.annexcloud.service.impl.DefaultAnnexCloudV3RestIntegrationService" parent="abstractV3RestIntegrationService">
+        <property name="response" 					 	ref="acTierInformationResponse"/>
+        <property name="httpMethod" 				 	value="POST" />
+        <property name="url_properties"        		    value="bulk.tier.sync.url" />
+        <!-- create.segment.url -->
+    </bean>
+
+
+    <bean id="acUpdateProductResponse"      class="com.annexcloud.v3.api.response.bulk.products.ACSyncProductResponse" />
+    <bean id="acUserActionDetailsResponse"  class="com.annex.cloud.v3.api.response.user.action.ACUserActionDetailsResponse" />
+    <bean id="acUpdateSegmentResponse"      class="com.annex.cloud.v3.api.response.segment.ACUpdateSegmentResponse" />
+    <bean id="acCreateSegmentResponse"      class="com.annex.cloud.v3.api.response.segment.ACCreateSegmentResponse" />
+	<bean id="acUpdateUserResponse"    		class="com.annex.cloud.v3.api.response.user.ACUserUpdateResponse"         	 />
+    <bean id="acCreateUserResponse"    		class="com.annex.cloud.v3.api.response.user.ACUserResponse"         	 	 />
+    <bean id="acCustomActionResponse"  		class="com.annex.cloud.v3.api.response.user.ACCustomActionResponse" 	     />
+    <bean id="acOrderResponse"         		class="com.annex.cloud.v3.api.response.user.ACOrderResponse"        	     />
+    <bean id="acProductPointResponse"  		class="com.annex.cloud.v3.api.response.user.ACProductPointWrapperResponse" 	 />
+    <bean id="acReturnOrderResponse"   		class="com.annex.cloud.v3.api.response.user.ACReturnOrcerResponse"  	     />
+    <bean id="acRewardListResponse"    		class="com.annex.cloud.v3.api.response.user.ACRewardListResponse"   	     />
+    <bean id="acuserPointResponse"     		class="com.annex.cloud.v3.api.response.user.ACUserPointsResponse"   	     />
+    <bean id="acCartCalculationResponse"    class="com.annex.cloud.v3.api.response.user.ACCartCalculationResponse"       />
+    <bean id="acUserActiveStatusResponse"   class="com.annex.cloud.v3.api.response.user.ACUserDetailsResponse"   	     />
+    <bean id="acUsedRewardListResponse"     class="com.annex.cloud.v3.api.response.user.ACUsedRewardListResponse"        />
+    <bean id="acUserActivityResponse"       class="com.annex.cloud.v3.api.response.user.activity.ACUserActivityResponse" />
+    <bean id="acSegmentDetailsResponse"     class="com.annex.cloud.v3.api.response.user.segment.ACSegmentDetailsWrapperResponse"    />
+    <bean id="acStoreDetailsResponse"       class="com.annex.cloud.v3.api.response.user.campaign.ACStoreDetailsResponse"    />
+    <bean id="acCampaignDetailResponse"     class="com.annex.cloud.v3.api.response.user.campaign.ACCampaignDetailsResponse" />
+    <bean id="acAllActionDetailResponse"    class="com.annex.cloud.v3.api.response.user.action.ACAllActionDetailResponse"   />
+    <bean id="acTierInformationResponse"    class="com.annex.cloud.v3.api.response.user.tier.ACTierInformationResponse"     />
+
+    <!--UNIQUE UID START-->
+    <alias name="defaultACUniqueUidService" alias="acUniqueUidService"/>
+    <bean id="defaultACUniqueUidService" class="com.annexcloud.service.impl.DefaultAnnexCloudUniqueUidService">
+        <property name="baseStoreService"                   	ref="baseStoreService"/>
+        <property name="commonI18NService"                  	ref="commonI18NService"/>
+        <property name="modelService"                       	ref="modelService" />
+        <property name="annexCloudRestSystemServiceFactory" 	ref="annexCloudRestSystemV3ServiceFactory"/>
+        <property name="commerceCartCalculationStrategy"    	ref="commerceCartCalculationStrategy"/>
+        <property name="sessionService"                     	ref="sessionService" />
+        <property name="annexCloudJWTService"               	ref="annexCloudJWTService" />
+        <property name="customerNameStrategy"               	ref="customerNameStrategy" />
+        <property name="userService"                           ref="userService"/>
+    </bean>
+    <!--UNIQUE UID END  -->
+
+    <alias name="defaultACV3LoyaltyService" alias="acV3LoyaltyService"/>
+    <bean id="defaultACV3LoyaltyService" class="com.annexcloud.service.impl.DefaultAnnexCloudLoyaltyV3Service" >
+        <property name="baseStoreService"                   	ref="baseStoreService"/>
+        <property name="commonI18NService"                  	ref="commonI18NService"/>
+        <property name="modelService"                       	ref="modelService" />
+        <property name="annexCloudRestSystemServiceFactory" 	ref="annexCloudRestSystemV3ServiceFactory"/>
+        <property name="commerceCartCalculationStrategy"    	ref="commerceCartCalculationStrategy"/>
+        <property name="sessionService"                     	ref="sessionService" />
+        <property name="annexCloudJWTService"               	ref="annexCloudJWTService" />
+        <property name="customerNameStrategy"               	ref="customerNameStrategy" />
+        <property name="annexCloudUniqueUidService"             ref="acUniqueUidService" />
+        <property name="userService" 							ref="userService"/>
+        <property name="defaultACCustomerDao" 					ref="defaultACCustomerDao"/>
+        <property name="eventService" 					        ref="eventService"/>
+    </bean>
+
+    <alias name="defaultAnnexCloudCustomerRegistrationEventListener" alias="annexCloudCustomerRegistrationEventListener"/>
+    <bean id="defaultAnnexCloudCustomerRegistrationEventListener"
+          class="com.annexcloud.event.ACRegistrationEventListener" parent="abstractAcceleratorSiteEventListener">
+        <property name="modelService" 							ref="modelService"/>
+        <property name="businessProcessService"  				ref="businessProcessService"/>
+        <property name="annexCloudLoyaltyService"   			ref="acV3LoyaltyService"/>
+    </bean>
+
+    <alias name="defaultAnnexCloudUpdateLoyaltyDataEventListener" alias="annexCloudUpdateLoyaltyDataEventListener"/>
+    <bean id="defaultAnnexCloudUpdateLoyaltyDataEventListener"
+          class="com.annexcloud.event.ACUpdateLoyaltyDataEventListener" parent="abstractSiteEventListener">
+        <property name="modelService" 							ref="modelService"/>
+        <property name="businessProcessService"  				ref="businessProcessService"/>
+        <property name="userService"   			                ref="userService"/>
+    </bean>
+
+
+    <bean id="objectMapper"   class="com.fasterxml.jackson.databind.ObjectMapper"  />
+	
+	<alias name="defaultAnnexCloudJWTService" alias="annexCloudJWTService"/>
+	<bean id="defaultAnnexCloudJWTService"   class="com.annexcloud.impl.DefaultAnnexCloudJWTService" >
+	    <property name="baseStoreService" 		                 ref="baseStoreService"/>
+        <property name="commonI18NService" 		                 ref="commonI18NService"/>
+        <property name="objectMapper" 			                 ref="objectMapper" />
+        <property name="annexCloudLoyaltyService"                ref="acV3LoyaltyService" />        
+	</bean>
+	
+   	<alias name="defaultAnnexCloudStoreCreditFactory" alias="annexCloudStoreCreditFactory"/>
+    <bean id="defaultAnnexCloudStoreCreditFactory" class="com.annexcloud.factory.impl.DefaultAnnexCloudStoreCreditFactory" >
+        <property name="modelService"                            ref="modelService" />
+        <property name="generateMerchantTransactionCodeStrategy" ref="generateMerchantTransactionCodeStrategy"/>
+    </bean>
+
+
+
+	<alias name="defaultAnnexCloudCouponService" alias="acCouponService"/>
+    <bean id="defaultAnnexCloudCouponService" class="com.annexcloud.coupon.impl.DefaultAnnexCloudCouponImpl">
+		<property name="modelService" ref="modelService" />
+		<property name="cartService" ref="cartService" />
+	</bean>
+	
+	<alias name="defaultAnnexCloudProductRatingValueProvider" alias="annexCloudProductRatingValueProvider"/>
+	<bean id="defaultAnnexCloudProductRatingValueProvider"
+          class="com.annexcloud.providers.AnnexCloudProductRatingValueProvider"  parent="abstractPropertyFieldValueProvider">
+        <property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+    </bean>
+    
+     <alias name="defaultACProductPointsValueProvider" alias="acProductPointsValueProvider"/>
+     <bean id="defaultACProductPointsValueProvider"
+          class="com.annexcloud.providers.ACProductPointsValueProvider"  parent="abstractPropertyFieldValueProvider">
+        <property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+        <property name="annexCloudLoyaltyService" ref="acV3LoyaltyService"/>
+    </bean>
+
+    <alias name="defaultACTestPointsValueProvider" alias="acTestPointsValueProvider"/>
+    <bean id="defaultACTestPointsValueProvider"
+          class="com.annexcloud.providers.ACTestPointsValueProvider"  parent="abstractPropertyFieldValueProvider">
+        <property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+        <property name="annexCloudLoyaltyService" ref="acV3LoyaltyService"/>
+    </bean>
+
+    <bean id="v3ServiceSystemSetup" class="com.annexcloud.setup.Annexcloudv3servicesSystemSetup" parent="abstractCoreSystemSetup"/>
+    <import resource="classpath:/annexcloudv3services/integration/hot-folder-annexcloud-store-product-spring.xml" />
+
+    <alias name="defaultAnnexCloudSegmentDao" alias="annexCloudSegmentDao"/>
+    <bean id="defaultAnnexCloudSegmentDao" class="com.annexcloud.dao.impl.DefaultAnnexCloudSegmentDao" />
+
+    <alias name="defaultAnnexCloudSiteDao" alias="annexCloudSiteDao"/>
+    <bean id="defaultAnnexCloudSiteDao" class="com.annexcloud.dao.impl.DefaultAnnexCloudSiteDao" />
+
+    <alias name="defaultAnnexCloudProductService" alias="annexCloudProductService"></alias>
+    <bean id="defaultAnnexCloudProductService" class="com.annexcloud.service.impl.DefaultAnnexCloudProductService" >
+        <constructor-arg value="Product"/>
+    </bean>
+
+
+    <bean id="defaultACCustomerDao" class="com.annexcloud.customer.dao.Impl.ACCustomerDaoImpl">
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <bean id="acLoyaltyDataEvent" class="com.annexcloud.event.LoyaltyDataEvent"></bean>
+</beans>

@@ -1,0 +1,60 @@
+
+
+#newsletterEmail {
+    color : #000000;
+        padding: 2px 10px;
+        margin: 0 10px 0 0;
+}
+
+.optIn-content label{
+cursor:pointer;
+}
+.optIn-content input[type="checkbox"]{
+    margin: 0;
+    display: inline-block;
+    vertical-align: middle;
+}
+.optIn-content label.label{
+display:inline-block;
+color:#fff;
+}
+.enrollmentLabel{
+    margin:0 0 10px;
+}
+.optIn__section, .newsletter__section{
+    padding: 20px;
+    text-align: center;
+}
+.optIn__section h1, .newsletter__section h1{
+margin-top:0;
+    font-weight: 700;
+    font-size: 26px;
+    color: #fff;
+    text-transform: uppercase;
+
+}
+.optInResult, .result{
+    color:#a20b0b;font-weight:700;    margin: 0 0 10px;
+}
+
+.optIn__section{
+background-color: #128a9e;color:#fff;border-bottom:2px solid #154259;
+}
+.newsletter__section{
+background-color: #929292;
+}
+.optOutResult, .result{
+    color:#a20b0b;font-weight:700;    margin: 0 0 10px;
+}
+
+.ac_point_symbol {
+  width: 14px;
+    margin: 0px 2px;
+}
+
+.annex_promotion_pdp{
+    color: #080606;
+    padding: 4px;
+    display: inline-block;
+    background: #ffffff;
+}

@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+ [y] hybris Platform
+
+ Copyright (c) 2018 SAP SE or an SAP affiliate company. All rights reserved.
+
+ This software is the confidential and proprietary information of SAP
+ ("Confidential Information"). You shall not disclose such Confidential
+ Information and shall use it only in accordance with the terms of the
+ license agreement you entered into with SAP.
+-->
+<!--
+	ATTENTION: This is just an example file. You have to edit it according to your needs.
+-->
+
+<items 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+			xsi:noNamespaceSchemaLocation="items.xsd">
+<enumtypes>
+			<enumtype code="LoyaltyProgram" autocreate="true" generate="true" dynamic="true">
+				<value code="IMPLICIT"/>
+				<value code="EXPLICIT"/>
+			</enumtype>
+			<enumtype code="PointRedemptionType" autocreate="true" generate="true" dynamic="true">
+				<value code="COUPON"/>
+			</enumtype>
+			<enumtype code="CreditDebitType" autocreate="true" generate="true" dynamic="true">
+				<value code="CREDIT"/>
+				<value code="DEBIT"/>
+				<value code="NONE"/>
+			</enumtype>
+			<enumtype code="LoyaltyEnrollmentType" autocreate="true" generate="true" dynamic="true">
+				<value code="OPTIN"/>
+				<value code="OPTOUT"/>
+				<value code="NONE"/>
+			</enumtype>
+			<enumtype code="PaymentTransactionType" autocreate="false" generate="false">
+				<!-- TODO: Move to the payment extension -->
+				<value code="LOYALTY_POINT_CREDIT" />
+			</enumtype>
+			<enumtype code="AcPkType" autocreate="true" generate="true" dynamic="true">
+				<value code="UID"/>
+				<value code="GYUID"/>
+			</enumtype>
+		</enumtypes>
+	<relations>
+	</relations>
+
+	<itemtypes>
+		<itemtype code="AnnexCloud" extends="GenericItem"
+				  autocreate="true" generate="true">
+			<deployment table="AnnexCloud" typecode="11024" />
+			<attributes>
+				<attribute qualifier="code" type="java.lang.String">
+					<modifiers read="true" write="true" search="true"
+							   unique="true" optional="false" />
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="siteId" type="java.lang.String">
+					<modifiers read="true" write="true" search="true" optional="false"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="templateId" type="java.lang.String">
+					<modifiers read="true" write="true" search="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="baseStore" type="BaseStore">
+					<modifiers read="true" write="true" search="true" optional="false"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="loyaltyProgramType" type="LoyaltyProgram">
+					<modifiers read="true" write="true" search="true" optional="false"/>
+					<persistence type="property"/>
+					<defaultvalue>em().getEnumerationValue("loyaltyProgramType", "IMPLICIT")</defaultvalue>
+				</attribute>
+				<attribute qualifier="pointRedemptionType" type="PointRedemptionType">
+					<modifiers read="true" write="true" search="true" optional="false"/>
+					<persistence type="property"/>
+					<defaultvalue>em().getEnumerationValue("pointRedemptionType", "PRICE")</defaultvalue>
+				</attribute>
+				<attribute qualifier="acPkType" type="AcPkType">
+					<modifiers read="true" write="true" search="true"/>
+					<persistence type="property"/>
+					<defaultvalue>em().getEnumerationValue("acPkType", "UID")</defaultvalue>
+				</attribute>
+			</attributes>
+		</itemtype>
+		
+        <itemtype code="Category" autocreate="false" generate="false">
+			<attributes>
+				<attribute qualifier="categoryPointType" type="java.lang.String">
+					<modifiers read="true" write="true" search="true" optional="true" />
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="categoryPointRatio" type="java.lang.String">
+					<modifiers read="true" write="true" search="true" optional="true" />
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="categoryBonusFlag" type="java.lang.String">
+					<modifiers read="true" write="true" search="true" optional="true" />
+					<persistence type="property" />
+				</attribute>
+			</attributes>
+		</itemtype>
+		<itemtype code="Product" autocreate="false" generate="false">
+			<attributes>
+				<attribute qualifier="averageRatings" type="double">
+					<modifiers read="true" write="true" search="true" optional="true" />
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="acSynced" type="java.lang.String">
+					<modifiers read="true" write="true" search="true" optional="true" />
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="productBonusFlag" type="java.lang.String" >
+					<modifiers read="true" write="true" search="true" optional="true" />
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="productPointRatio" type="java.lang.String">
+					<modifiers read="true" write="true" search="true" optional="true" />
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="productMinimumLimit" type="java.lang.String">
+					<modifiers read="true" write="true" search="true" optional="true" />
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="productBonus" type="java.lang.String">
+					<modifiers read="true" write="true" search="true" optional="true" />
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="productPointType" type="java.lang.String">
+					<modifiers read="true" write="true" search="true" optional="true" />
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="pointAwardType" type="java.lang.String">
+					<modifiers read="true" write="true" search="true" optional="true" />
+					<persistence type="property" />
+				</attribute>
+			</attributes>
+		</itemtype>
+		<!--	CUSTOMER	-->
+		<itemtype code="Customer" autocreate="false" generate="false">
+			<attributes>
+				<attribute qualifier="acId" type="java.lang.String">
+					<modifiers read="true" write="true" search="true" optional="true" />
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="optInStatus" type="java.lang.String">
+					<modifiers read="true" write="true" search="true" optional="true" />
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="optInDate" type="java.lang.String">
+					<modifiers read="true" write="true" search="true" optional="true" />
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="availablePoints" type="java.lang.String">
+					<modifiers read="true" write="true" search="true" optional="true" />
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="usedPoints" type="java.lang.String">
+					<modifiers read="true" write="true" search="true" optional="true" />
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="lifetimePoints" type="java.lang.String">
+					<modifiers read="true" write="true" search="true" optional="true" />
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="pointsToExpire" type="java.lang.String">
+					<modifiers read="true" write="true" search="true" optional="true" />
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="pointsToExpireDate" type="java.lang.String">
+					<modifiers read="true" write="true" search="true" optional="true" />
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="currentTier" type="java.lang.String">
+					<modifiers read="true" write="true" search="true" optional="true" />
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="nextTier" type="java.lang.String">
+					<modifiers read="true" write="true" search="true" optional="true" />
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="pointsToNextTier" type="java.lang.String">
+					<modifiers read="true" write="true" search="true" optional="true" />
+					<persistence type="property" />
+				</attribute>
+			</attributes>
+		</itemtype>
+		<!--	CUSTOMER	-->
+
+		<itemtype code="CxSegment" autocreate="false" generate="false">
+			<attributes>
+				<attribute qualifier="acSegmentId" type="java.lang.String">
+					<description>Annex Cloud segment id</description>
+					<modifiers read="true" write="true" search="true" optional="true" />
+					<persistence type="property" />
+				</attribute>
+			</attributes>
+		</itemtype>
+
+		<itemtype code="BaseStore" autocreate="false" generate="false">
+			<attributes>
+				<attribute qualifier="annexCloud" type="AnnexCloud">
+					<modifiers read="true" write="true" search="true" optional="true" />
+					<persistence type="property" />
+				</attribute>
+			</attributes>
+		</itemtype>
+
+
+		<itemtype code="AbstractOrder" autocreate="false" generate="false">
+			<attributes>
+				<attribute qualifier="appliedAnnexCloudCouponCode" type="java.lang.String">
+					<modifiers read="true" write="true" search="true"/>
+					<persistence type="property"/>
+				</attribute>
+				<attribute qualifier="annexCloudUserCreditPoint" type="AnnexCloudUserCreditPoint">
+					<modifiers read="true" write="true" search="true"/>
+					<persistence type="property"/>
+				</attribute>
+			</attributes>
+		</itemtype>
+		
+		<itemtype code="AnnexCloudUserCreditPoint" extends="GenericItem"
+				  autocreate="true" generate="true">
+			<deployment table="UserCreditPoint" typecode="11016" />
+			<attributes>
+				<attribute qualifier="rewardId" type="java.lang.String">
+					<defaultvalue>0</defaultvalue>
+					<modifiers read="true" write="true" search="true" optional="false" />
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="deductAmount" type="java.lang.Double">
+					<defaultvalue>0.0</defaultvalue>
+					<modifiers read="true" write="true" search="true" optional="false" />
+					<persistence type="property" />
+				</attribute>
+			</attributes>
+		</itemtype>
+
+
+		<!--	added by me	-->
+		<itemtype code="Product" autocreate="false" generate="false">
+			<attributes>
+				<attribute autocreate="true" qualifier="productPoints" type="java.lang.String" generate="true">
+					<persistence type="property" />
+					<modifiers read="true" write="true" search="true" initial="true" optional="true" unique="false" />
+				</attribute>
+			</attributes>
+		</itemtype>
+	</itemtypes>
+	<!--				<attribute qualifier="site" type="java.lang.String">-->
+</items>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ [y] hybris Platform
+
+ Copyright (c) 2018 SAP SE or an SAP affiliate company.  All rights reserved.
+
+ This software is the confidential and proprietary information of SAP
+ ("Confidential Information"). You shall not disclose such Confidential
+ Information and shall use it only in accordance with the terms of the
+ license agreement you entered into with SAP.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd">
+           
+  <context:annotation-config/>
+
+	<bean id="defaultAnnexcloudaddonJavaScriptMessageResourceAccessor" parent="abstractJavaScriptMessageResourceAccessor">
+		<property name="addOnName"              value="annexcloudaddon"/>
+	</bean>
+
+	<bean id="defaultAnnexcloudaddonBeforeViewJsPropsHandlerAdaptee"   parent="abstractBeforeViewJsPropsHandlerAdaptee" class="de.hybris.platform.addonsupport.interceptors.ExportJsPropertiesBeforeViewHandler">
+		<property name="messageSource"          ref="defaultAnnexcloudaddonJavaScriptMessageResourceAccessor"/>
+	</bean>
+
+	<bean id="getAnnexcloudaddonBeforeViewHandler"                     parent="beforeViewHandlerAdapter">
+		<property name="adaptee">
+			<ref bean="defaultAnnexcloudaddonBeforeViewJsPropsHandlerAdaptee"/>
+		</property>
+	</bean>
+	<bean id="AnnexcloudaddonBeforeViewHandlerListMergeDirective"      depends-on="beforeViewHandlersList" parent="listMergeDirective">
+		<property name="add" ref="getAnnexcloudaddonBeforeViewHandler"/>
+	</bean>
+
+	<bean name="acLoyaltyPageController" class="com.annexcloud.controllers.pages.ACLoyaltyPageController"/>
+
+
+	<alias name="acProductPageController" alias="productPageController"/>
+	<bean name="acProductPageController" class="com.annexcloud.controllers.pages.ACProductPageController"/>
+
+	<alias name="acCategoryPageController" alias="categoryPageController"/>
+	<bean name="acCategoryPageController"  class="com.annexcloud.controllers.pages.ACCategoryPageController"/>
+	
+	
+		<alias name="acCartPageController" alias="cartPageController"/>
+	<bean name="acCartPageController"  class="com.annexcloud.controllers.pages.ACCartPageController"/>
+	
+	
+	<bean name="acGalleryPageController"   class="com.annexcloud.controllers.pages.ACGalleryPageController"/>
+ 
+    <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="mappings">
+			<props>
+				<prop key="/my-account/loyalty-point">acLoyaltyPageController</prop>
+				<prop key="/**/p">productPageController</prop>
+				<prop key="/**/c">categoryPageController</prop>
+				<prop key="/picture/galleryPage">acGalleryPageController</prop>
+				<prop key="/cart/**">acCartPageController</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<bean id="AnnexCloudImageSliderHomePageComponentController"
+		  class="com.annexcloud.controllers.cms.AnnexCloudImageSliderHomePageComponentController">
+	</bean>
+	<import resource="annexcloud-multi-step-checkout-config.xml"/>
+</beans>
