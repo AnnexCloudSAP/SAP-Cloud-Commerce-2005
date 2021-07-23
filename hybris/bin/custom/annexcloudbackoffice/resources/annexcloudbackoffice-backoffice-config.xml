@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+ [y] hybris Platform
+
+ Copyright (c) 2018 SAP SE or an SAP affiliate company.  All rights reserved.
+
+ This software is the confidential and proprietary information of SAP
+ ("Confidential Information"). You shall not disclose such Confidential
+ Information and shall use it only in accordance with the terms of the
+ license agreement you entered into with SAP.
+-->
+<config xmlns="http://www.hybris.com/cockpit/config"
+		xmlns:y="http://www.hybris.com/cockpit/config/hybris"
+		xmlns:list-view="http://www.hybris.com/cockpitng/component/listView"
+		xmlns:editorArea="http://www.hybris.com/cockpitng/component/editorArea"
+		xmlns:n="http://www.hybris.com/cockpitng/config/explorertree"
+		xmlns:simple-search="http://www.hybris.com/cockpitng/config/simplesearch"
+		xmlns:advanced-search="http://www.hybris.com/cockpitng/config/advancedsearch"
+		xmlns:yss="http://www.hybris.com/cockpitng/config/simplesearch"
+		xmlns:wz="http://www.hybris.com/cockpitng/config/wizard-config">
+
+	<context component="explorer-tree" parent="auto" merge-by="module">
+		<n:explorer-tree>
+			<n:navigation-node id="Annex Cloud" merge-mode="append">
+				<n:type-node id="AnnexCloud" code="AnnexCloud" />
+				<n:type-node id="AnnexCloudAction" code="AnnexCloudAction"/>	
+			</n:navigation-node>
+		</n:explorer-tree>
+	</context>
+
+	<context type="AnnexCloud" component="simple-search">
+		<yss:simple-search >
+			<yss:field name="siteId"/>
+		</yss:simple-search>
+	</context>
+
+	<context type="AnnexCloudAction" component="simple-search">
+		<yss:simple-search >
+			<yss:field name="actionID"/>
+		</yss:simple-search>
+	</context>
+	
+	<context type="Customer" component="simple-search">
+		<yss:simple-search >
+			<yss:field name="id"/>
+		</yss:simple-search>
+	</context>
+
+	<context merge-by="type" parent="GenericItem" type="AnnexCloud" component="advanced-search">
+		<advanced-search:advanced-search >
+			<advanced-search:field-list>
+				<advanced-search:field name="code" selected="true"/>
+				<advanced-search:field name="siteId" selected="true"/>
+				<advanced-search:field name="templateId" selected="false"/>
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+	<context merge-by="type" parent="GenericItem" type="AnnexCloudAction" component="advanced-search">
+		<advanced-search:advanced-search >
+			<advanced-search:field-list>
+				<advanced-search:field name="actionID" selected="true"/>
+				<advanced-search:field name="actionName" selected="true"/>
+				<advanced-search:field name="actionUse" selected="false"/>
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+	
+	<context merge-by="type" type="AnnexCloud" component="editor-area">
+		<editorArea:editorArea>
+			<editorArea:tab name="hmc.tab.common">
+				<editorArea:section name="hmc.essential">
+					<editorArea:attribute qualifier="code"/>
+					<editorArea:attribute qualifier="siteId"/>
+					<editorArea:attribute qualifier="baseStore"/>
+					<editorArea:attribute qualifier="loyaltyProgramType"/>
+					<editorArea:attribute qualifier="pointRedemptionType"/> 
+					<editorArea:attribute qualifier="templateId"/>			
+				</editorArea:section>
+			</editorArea:tab>
+		</editorArea:editorArea>
+	</context>
+
+	<context merge-by="type" type="AnnexCloudAction" component="editor-area">
+		<editorArea:editorArea>
+			<editorArea:tab name="hmc.tab.common">
+				<editorArea:section name="hmc.essential">
+					<editorArea:attribute qualifier="actionID"/>
+					<editorArea:attribute qualifier="actionName"/>
+					<editorArea:attribute qualifier="actionUse"/>
+					<editorArea:attribute qualifier="customActionEnabled"/>
+					<editorArea:attribute qualifier="baseStore"/>
+				</editorArea:section>
+			</editorArea:tab>
+		</editorArea:editorArea>
+	</context>
+	
+	 <context component="cs-explorer-tree" module="customersupportbackoffice" principal="customersupportadministratorrole,customersupportmanagerrole,customersupportagentrole">
+        <n:explorer-tree xmlns:n="http://www.hybris.com/cockpitng/config/explorertree" title="customer_support">
+			<n:type-node code="AnnexCloudCustomer" id="AnnexCloudCustomer"/> 
+        </n:explorer-tree>
+    </context>
+    
+    <context component="cs-listview" type="AnnexCloudCustomer" module="customersupportbackoffice">
+        <list-view:list-view>
+            <list-view:column qualifier="acCustomerId" label="Customer Id"/>            
+            <list-view:column qualifier="name" label="Customer Name"/>
+            <list-view:column qualifier="optIn" label="Opt-in Status"/>
+         </list-view:list-view>
+    </context>
+    
+    <context type="AnnexCloudCustomer" component="cs-simple-search" module="customersupportbackoffice">
+        <simple-search:simple-search>
+	        <simple-search:field name="acCustomerId" />
+        </simple-search:simple-search>
+    </context>
+    
+	<context merge-by="type"  type="AnnexCloudCustomer"
+		component="cs-editor-area" module="customersupportbackoffice"
+		principal="customersupportmanagerrole,customersupportagentrole">
+		<editorArea:editorArea name="Customer Details">
+			<editorArea:tab name="loyalty.program.name" tooltipText="loyalty.program.name.desc">
+				<editorArea:section name="loyalty.program.name">
+					<editorArea:attribute qualifier="acCustomerId"       readonly="true" />
+					<editorArea:attribute qualifier="active"		     readonly="true" />
+					<editorArea:attribute qualifier="optIn"		     	 readonly="true" />
+					<editorArea:attribute qualifier="usedPoints"	     readonly="true" />
+					<editorArea:attribute qualifier="annexCloud"	                     />
+					<editorArea:attribute qualifier="availablePoints" 	 readonly="true" />
+					<editorArea:attribute qualifier="expiredPoints" 	 readonly="true" />
+					<editorArea:attribute qualifier="lifetimePoints" 	 readonly="true" />
+					<editorArea:attribute qualifier="holdPoints" 	     readonly="true" />
+					<editorArea:attribute qualifier="usedPointsOnReward" readonly="true" />
+					<editorArea:attribute qualifier="pointsToExpire" 	 readonly="true" />
+					<editorArea:attribute qualifier="pointsToNextTier" 	 readonly="true" />
+					<editorArea:attribute qualifier="spendToNextTier" 	 readonly="true" />
+					<editorArea:attribute qualifier="pointsToExpireDate" readonly="true" />
+					<editorArea:attribute qualifier="totalSpend" 	     readonly="true" />					
+				</editorArea:section>				
+			</editorArea:tab>
+			<editorArea:tab name="loyalty.program.give.point" tooltipText="loyalty.program.give.point.desc">
+				<editorArea:section name="loyalty.program.give.point">
+					<editorArea:attribute qualifier="givePoints"/>
+			 		<editorArea:attribute qualifier="reason"/>
+			 		<editorArea:attribute qualifier="givePointsType"/>
+				</editorArea:section>
+				<editorArea:section name="loyalty.program.name">
+					<editorArea:attribute qualifier="transactionsHistory" readonly="true" />
+				</editorArea:section>				
+			</editorArea:tab>
+			<editorArea:tab name="loyalty.program.enrollment" tooltipText="loyalty.program.enrollment.desc">
+				<editorArea:section name="loyalty.program.enrollment">
+					<editorArea:attribute qualifier="optIn"		     readonly="true" />
+					<editorArea:attribute qualifier="enrollmentType"/>
+				</editorArea:section>
+			</editorArea:tab>
+			<editorArea:tab name="loyalty.program.virtual.terminal.point" tooltipText="loyalty.program.virtual.terminal.point.desc">
+			 	<editorArea:section name="loyalty.program.virtual.terminal.point"  >  
+			 			<editorArea:custom>
+							<editorArea:default><![CDATA[<iframe src="https://www.socialannex.com/public/pos/loyaltyreport" frameborder="0" style="width: 101%; height: 50%;"></iframe>]]></editorArea:default>
+						</editorArea:custom>
+		 		</editorArea:section>	  			
+			</editorArea:tab>
+		</editorArea:editorArea>
+	</context>
+
+	<context merge-by="type" parent="GenericItem" type="AnnexCloud" component="listview">
+		<list-view:list-view>
+			<list-view:column qualifier="code"/>
+			<list-view:column qualifier="siteId"/>
+		</list-view:list-view>
+	</context>
+
+	<context merge-by="type" parent="GenericItem" type="AnnexCloudAction" component="listview">
+		<list-view:list-view>
+			<list-view:column qualifier="actionID"/>
+			<list-view:column qualifier="actionName"/>
+		</list-view:list-view>
+	</context>
+	<context component="create-wizard" type="AnnexCloud">
+		<wz:flow id="AnnexCloudWizard" title="create.title(ctx.TYPE_CODE)">
+			<wz:prepare id="annexCloudPrepare">
+				<wz:initialize property="newAnnexCloud" type="ctx.TYPE_CODE"/>
+			</wz:prepare>
+			<wz:step id="step1" label="create.annexcloud.general.label"
+					 sublabel="create.annexcloud.general.sublabel">
+				<wz:content id="step1.content">
+					<wz:property-list root="newAnnexCloud">
+						<wz:property qualifier="code"/>
+						<wz:property qualifier="siteId"/>
+						<wz:property qualifier="baseStore"/>
+						<wz:property qualifier="loyaltyProgramType"/>
+						<wz:property qualifier="pointRedemptionType"/>
+						<wz:property qualifier="templateId"/> 
+					</wz:property-list>
+				</wz:content>
+				<wz:navigation id="step1.navigation">
+					<wz:cancel/>
+					<wz:done
+							visible="newAnnexCloud.code != null AND newAnnexCloud.siteId != null AND newAnnexCloud.baseStore != null">
+						<wz:save property="newAnnexCloud"/>
+					</wz:done>
+				</wz:navigation>
+			</wz:step>
+		</wz:flow>
+	</context>
+	<context component="create-wizard" type="AnnexCloudAction">
+		<wz:flow id="AnnexCloudActionWizard" title="create.title(ctx.TYPE_CODE)">
+			<wz:prepare id="annexCloudActionPrepare">
+				<wz:initialize property="newAnnexCloudAction" type="ctx.TYPE_CODE"/>
+			</wz:prepare>
+			<wz:step id="step1" label="create.annexcloudaction.general.label"
+					 sublabel="create.annexcloudaction.general.sublabel">
+				<wz:content id="step1.content">
+					<wz:property-list root="newAnnexCloudAction">
+						<wz:property qualifier="actionID"/>
+						<wz:property qualifier="actionName"/>
+						<wz:property qualifier="actionUse"/>
+						<wz:property qualifier="customActionEnabled"/>
+						<wz:property qualifier="baseStore"/>
+					</wz:property-list>
+				</wz:content>
+				<wz:navigation id="step1.navigation">
+					<wz:cancel/>
+					<wz:done
+							visible="newAnnexCloudAction.actionID != null AND newAnnexCloudAction.actionName != null">
+						<wz:save property="newAnnexCloudAction"/>
+					</wz:done>
+				</wz:navigation>
+			</wz:step>
+		</wz:flow>
+	</context>
+
+	<context component="cseditorareaactions" principal="customersupportmanagerrole,customersupportagentrole" parent="User" type="Customer">
+		<y:actions>
+			<y:group qualifier="common">
+				<y:label>actiongroup.common</y:label>
+				<y:action action-id="com.hybris.backoffie.widgets.actions.loyalty" property="currentObject"/>
+			</y:group>
+		</y:actions>
+	</context>
+</config>

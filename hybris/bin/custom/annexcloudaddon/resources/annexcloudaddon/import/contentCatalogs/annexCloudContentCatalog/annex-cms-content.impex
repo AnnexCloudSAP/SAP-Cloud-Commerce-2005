@@ -1,0 +1,41 @@
+# -----------------------------------------------------------------------
+# [y] hybris Platform
+#
+# Copyright (c) 2018 SAP SE or an SAP affiliate company.  All rights reserved.
+#
+# This software is the confidential and proprietary information of SAP
+# ("Confidential Information"). You shall not disclose such Confidential
+# Information and shall use it only in accordance with the terms of the
+# license agreement you entered into with SAP.
+# -----------------------------------------------------------------------
+# ImpEx for Importing Product Medias into Apparel Store
+
+# Macros / Replacement Parameter definitions
+$productCatalog=apparelProductCatalog
+$productCatalogName=Apparel Product Catalog
+$catalogVersion=catalogversion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog:Staged]
+$media=@media[translator=de.hybris.platform.impex.jalo.media.MediaDataTranslator]
+$siteResource=jar:com.annexcloud.constants.AnnexcloudaddonConstants&/annexcloudaddon/import/contentCatalogs/annexCloudContentCatalog
+$thumbnail=thumbnail(code, $catalogVersion)
+$picture=picture(code, $catalogVersion)
+$thumbnails=thumbnails(code, $catalogVersion)
+$detail=detail(code, $catalogVersion)
+$normal=normal(code, $catalogVersion)
+$others=others(code, $catalogVersion)
+$medias=medias(code, $catalogVersion)
+$galleryImages=galleryImages(qualifier, $catalogVersion)
+$annexSiteId=26569380
+$annexSiteCode=NetSuiteLTv3
+
+# Create medias
+INSERT_UPDATE Media;mediaFormat(qualifier);;code[unique=true];$media;mime[default='image/jpeg'];$catalogVersion;folder(qualifier)
+;1200Wx1200H;;/1200Wx1200H/coin_1200.jpg;$siteResource/images/1200Wx1200H/coin_1200.png;;;images
+;515Wx515H;;/515Wx515H/coin_515.jpg;$siteResource/images/515Wx515H/coin_515.jpg;;;images
+;300Wx300H;;/300Wx300H/coin_300.jpg;$siteResource/images/300Wx300H/coin_300.jpg;;;images
+;96Wx96H;;/96Wx96H/coin_96.jpg;$siteResource/images/96Wx96H/coin_96.jpg;;;images
+;65Wx65H;;/65Wx65H/coin_65.jpg;$siteResource/images/65Wx65H/coin_65.jpg;;;images
+;30Wx30H;;/30Wx30H/coin_30.jpg;$siteResource/images/30Wx30H/coin_30.jpg;;;images
+
+############################################ Set the Annex cloud site credentials  ###############################################################################################################################################################
+INSERT_UPDATE AnnexCloud;code		    ;siteId[unique=true] ;pointSymbol(code,$catalogVersion)
+                        ;$annexSiteCode;$annexSiteId         ;/1200Wx1200H/coin_1200.jpg

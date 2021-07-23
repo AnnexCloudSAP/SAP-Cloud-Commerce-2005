@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ [y] hybris Platform
+
+ Copyright (c) 2018 SAP SE or an SAP affiliate company.  All rights reserved.
+
+ This software is the confidential and proprietary information of SAP
+ ("Confidential Information"). You shall not disclose such Confidential
+ Information and shall use it only in accordance with the terms of the
+ license agreement you entered into with SAP.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd">
+           
+    <context:annotation-config/>
+
+	<!-- Order Process Actions -->
+
+	<bean id="abstractOrderAction" class="com.annexcloud.actions.order.AbstractOrderAction"  abstract="true" parent="abstractAction">
+		<property name="timeService" ref="timeService"/>
+	</bean>
+
+	<bean id="checkOrderAction" class="com.annexcloud.actions.order.CheckOrderAction"  parent="abstractAction">
+		<property name="checkOrderService" ref="checkOrderService"/>
+	</bean>
+
+	<bean id="sendOrderDetailToAnnexCloud" class="com.annexcloud.actions.order.SendOrderDetailToAnnexCloudAction"
+		  parent="abstractAction">
+		<property name="annexCloudLoyaltyService" ref="acV3LoyaltyService"/>
+	</bean>
+
+<!-- 	<bean id="salesTrackingAnnexCloudAction" class="com.annexcloud.actions.order.SalesTrackingAnnexCloudAction"
+		  parent="abstractAction">
+		<property name="annexCloudSalesTrackingService" ref="annexCloudSalesTrackingService"/>
+	</bean> -->
+
+	<bean id="cancelWholeOrderAuthorizationAction" class="com.annexcloud.actions.order.CancelWholeOrderAuthorizationAction"
+            parent="abstractAction">
+		<property name="paymentService" ref="paymentService"/>
+    </bean>
+
+	<bean id="sendOrderPlacedNotificationAction" class="com.annexcloud.actions.order.SendOrderPlacedNotificationAction"  parent="abstractAction">
+		<property name="eventService" ref="eventService"/>
+	</bean>
+
+	<bean id="takePaymentAction" class="com.annexcloud.actions.order.TakePaymentAction"  parent="abstractAction">
+		<property name="paymentService" ref="paymentService"/>
+    </bean>
+
+	<bean id="sendPaymentFailedNotificationAction" class="com.annexcloud.actions.order.SendPaymentFailedNotificationAction"  parent="abstractAction">
+		<property name="eventService" ref="eventService"/>
+	</bean>
+
+	<bean id="checkTransactionReviewStatusAction" class="com.annexcloud.actions.order.CheckTransactionReviewStatusAction"  parent="abstractAction">
+		<property name="ticketBusinessService" ref="ticketBusinessService"/>
+	</bean>
+
+	<bean id="fraudCheckOrderAction" class="com.annexcloud.actions.order.FraudCheckOrderAction"  parent="abstractOrderAction">
+		<property name="fraudService" ref="fraudService"/>
+		<property name="providerName" value="Mockup_3rdPartyProvider"/>
+	</bean>
+
+	<bean id="prepareOrderForManualCheckAction" class="com.annexcloud.actions.order.PrepareOrderForManualCheckAction"  parent="abstractAction">
+		<property name="eventService" ref="eventService"/>
+	</bean>
+
+	<bean id="sendFraudErrorNotificationAction" class="com.annexcloud.actions.order.SendFraudErrorNotificationAction"  parent="abstractAction">
+		<property name="eventService" ref="eventService"/>
+	</bean>
+
+	<bean id="checkAuthorizeOrderPaymentAction" class="com.annexcloud.actions.order.CheckAuthorizeOrderPaymentAction"  parent="abstractAction"/>
+
+	<bean id="sendAuthorizationFailedNotificationAction" class="com.annexcloud.actions.order.SendAuthorizationFailedNotificationAction"  parent="abstractAction">
+		<property name="eventService" ref="eventService"/>
+	</bean>
+
+	<bean id="reserveOrderAmountAction" class="com.annexcloud.actions.order.ReserveOrderAmountAction"  parent="abstractAction"/>
+
+	<bean id="fraudCheckOrderInternalAction" class="com.annexcloud.actions.order.FraudCheckOrderInternalAction"  parent="abstractOrderAction">
+		<property name="fraudService" ref="fraudService"/>
+		<property name="providerName" value="hybris"/>
+	</bean>
+
+	<bean id="orderManualCheckedAction" class="com.annexcloud.actions.order.OrderManualCheckedAction"  parent="abstractOrderAction"/>
+
+	<bean id="splitOrderAction" class="com.annexcloud.actions.order.SplitOrderAction"  parent="abstractAction">
+		<property name="orderSplittingService" ref="orderSplittingService"/>
+		<property name="businessProcessService" ref="businessProcessService"/>
+	</bean>
+
+	<bean id="subprocessesCompletedAction" class="com.annexcloud.actions.order.SubprocessesCompletedAction"  parent="abstractAction"/>
+
+	<bean id="setOrderExpirationTimeAction" class="com.annexcloud.actions.order.SetOrderExpirationTimeAction"  parent="abstractAction">
+		<property name="timeService" ref="timeService"/>
+	</bean>
+	
+	<bean id="sendOrderCompletedNotificationAction" class="com.annexcloud.actions.order.SendOrderCompletedNotificationAction"  parent="abstractAction">
+		<property name="eventService" ref="eventService"/>
+	</bean>
+
+	<bean id="scheduleForCleanUpAction" class="com.annexcloud.actions.order.ScheduleForCleanUpAction"  parent="abstractAction">
+		<property name="timeService" ref="timeService"/>
+	</bean>
+
+	<bean id="notifyCustomerAboutFraudAction" class="com.annexcloud.actions.order.NotifyCustomerAboutFraudAction"  parent="abstractAction">
+		<property name="eventService" ref="eventService"/>
+	</bean>
+
+
+</beans>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ [y] hybris Platform
+
+ Copyright (c) 2018 SAP SE or an SAP affiliate company. All rights reserved.
+
+ This software is the confidential and proprietary information of SAP
+ ("Confidential Information"). You shall not disclose such Confidential
+ Information and shall use it only in accordance with the terms of the
+ license agreement you entered into with SAP.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+     <alias name="defaultAnnexCloudUserPointsDataPopulator" alias="annexCloudUserPointsDataPopulator"/>
+    <bean id="defaultAnnexCloudUserPointsDataPopulator" class="com.annexcloud.populator.ACUserPointsDataPopulator" />
+    
+     <alias name="defaultACAnnexSiteCredentialsPopulator" alias="aCAnnexSiteCredentialsPopulator"/>
+    <bean id="defaultACAnnexSiteCredentialsPopulator"   class="com.annexcloud.populator.ACAnnexSiteCredentialsPopulator"   />
+    
+    <alias name="defaultACUserTokenPopulator" alias="acUserTokenPopulator"/>
+    <bean id="defaultACUserTokenPopulator"              class="com.annexcloud.populator.ACUserTokenPopulator"   />     
+    
+    <alias name="defaultAnnexCloudUserPointsDataConverter" alias="annexCloudUserPointsDataConverter"/>
+    <bean id="defaultAnnexCloudUserPointsDataConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.annex.cloud.data.reward.AnnexUserPointsData"/>
+        <property name="populators">
+            <list>
+                <ref bean="annexCloudUserPointsDataPopulator"/>
+            </list>
+        </property>
+    </bean>
+    
+    <alias name="defaultACAnnexSiteCredentialsConverter" alias="aCAnnexSiteCredentialsConverter"/>
+    <bean id="defaultACAnnexSiteCredentialsConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.annex.cloud.data.customer.AnnexCloudData"/>
+        <property name="populators">
+            <list>
+                <ref bean="aCAnnexSiteCredentialsPopulator"/>
+            </list>
+        </property>
+    </bean>
+    
+    <alias name="defaultAnnexSiteUserTokenConverter" alias="acAnnexSiteUserTokenConverter"/>
+    <bean id="defaultAnnexSiteUserTokenConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.annex.cloud.data.customer.AnnexCloudData"/>
+        <property name="populators">
+            <list>
+                <ref bean="aCAnnexSiteCredentialsPopulator"/>
+                <ref bean="acUserTokenPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+	<alias name="defaultAnnexConfiguredPopulator"	alias="annexConfiguredPopulator" />
+	<bean id="defaultAnnexConfiguredPopulator"		class="de.hybris.platform.commercefacades.converter.impl.DefaultConfigurablePopulator">
+		<property name="populators">
+			<map key-type="com.annex.cloud.sitedetails.ACSiteDetailsOptions">
+				<entry key="ANNEX_USER_DETAILS"		value-ref="acAnnexSiteUserTokenConverter" />
+				<entry key="ANNEX_SITE_DETAILS"		value-ref="aCAnnexSiteCredentialsConverter" />
+			</map>
+		</property>
+	</bean>
+    
+    <alias name="defaultACV3LoyaltyFacade"	alias="acV3LoyaltyFacade" />
+    <bean id="defaultACV3LoyaltyFacade" 	class="com.annexcloud.facade.impl.DefaultAnnexCloudV3Facade">
+        <property name="annexCloudLoyaltyService" ref="acV3LoyaltyService"/>
+        <property name="userPointsDataConverter" ref="annexCloudUserPointsDataConverter"/>
+        <property name="userService" ref="userService"/>
+        <property name="aCAnnexSiteCredentialsConverter" ref="aCAnnexSiteCredentialsConverter"/>
+        <property name="cartFacade" ref="cartFacade"/>
+        <property name="voucherFacade" ref="voucherFacade"/>
+        <property name="couponService" ref="acCouponService"/>
+        <property name="acSiteDetailsPopulator" ref="annexConfiguredPopulator"/>
+    </bean>
+    
+    <alias name="defaultACOrderPopulator"	alias="acOrderPopulator" />
+    <bean id="defaultACOrderPopulator"    class="com.annexcloud.populator.ACAbstractOrderPopulator" parent="baseOrderPopulator" />
+    
+	<alias name="defaultACSerachReasultProductPointsPopulator" alias="acSerachReasultProductPointsPopulator"/>
+	<bean id="defaultACSerachReasultProductPointsPopulator" class="com.annexcloud.populator.ACSearchResultProductPopulator"/>
+	
+	<bean parent="modifyPopulatorList">
+		<property name="list" ref="commerceSearchResultProductConverter" />
+		<property name="add" ref="acSerachReasultProductPointsPopulator" />
+	</bean>
+
+    <bean parent="modifyPopulatorList">
+        <property name="list" ref="defaultCartConverter" />
+        <property name="add" ref="acOrderPopulator" />
+    </bean>
+
+    <bean parent="modifyPopulatorList">
+        <property name="list" ref="defaultMiniCartConverter" />
+        <property name="add" ref="acOrderPopulator" />
+    </bean>
+
+    <bean parent="modifyPopulatorList">
+        <property name="list" ref="defaultOrderConverter" />
+        <property name="add" ref="acOrderPopulator" />
+    </bean>
+
+    <bean parent="modifyPopulatorList">
+        <property name="list" ref="extendedCartConverter" />
+        <property name="add" ref="acOrderPopulator" />
+    </bean>
+    
+    <alias name="defaultACCouponFacade" alias="voucherFacade"/>
+	<bean id="defaultACCouponFacade" class="com.annexcloud.DefaultACCouponFacade" parent="defaultCouponFacade">
+		<property name="modelService" ref="modelService"/>
+		<property name="cartService" ref="cartService"/>
+	</bean>
+	
+    
+	
+</beans>

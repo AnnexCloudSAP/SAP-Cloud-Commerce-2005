@@ -1,0 +1,572 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+ [y] hybris Platform
+
+ Copyright (c) 2018 SAP SE or an SAP affiliate company. All rights reserved.
+
+ This software is the confidential and proprietary information of SAP
+ ("Confidential Information"). You shall not disclose such Confidential
+ Information and shall use it only in accordance with the terms of the
+ license agreement you entered into with SAP.
+-->
+<!--
+	ATTENTION: This is just an example file. You have to edit it according to your needs.
+-->
+
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="beans.xsd">
+    
+	<bean class="com.annex.cloud.loyalty.jwt.ACJwtRequest">
+    </bean>
+    
+     <bean class="com.annex.cloud.loyalty.jwt.ACAbstractJwtRequest"  extends="com.annex.cloud.loyalty.jwt.ACJwtRequest">
+        <property name="id" type="String"/>
+    </bean>
+
+	<bean class="com.annex.cloud.loyalty.jwt.ACUserActionJwtRequest"  extends="com.annex.cloud.loyalty.jwt.ACAbstractJwtRequest">
+		<property name="page" type="String"/>
+	</bean>
+    
+    <bean class="com.annex.cloud.loyalty.jwt.ACUserJwtRequest" extends="com.annex.cloud.loyalty.jwt.ACAbstractJwtRequest">
+        <property name="email"      	type="String"/>
+        <property name="firstName"  	type="String"/>
+        <property name="lastName"   	type="String"/>
+        <property name="optInStatus" 	type="String"/>
+        <property name="status"   	    type="String"/>
+        <property name="phone" 	        type="String"/>
+        <property name="birthDate" 	    type="String"/>
+        <property name="anniversaryDate" 	    type="String"/>
+        <property name="userProfileImageUrl" 	    type="String"/>
+        <property name="extendedAttribute" 	    type="java.util.Map&lt;String,String>"/>
+
+    </bean>
+    
+    <bean class="com.annex.cloud.loyalty.jwt.ACUserUpdateJwtRequest" extends="com.annex.cloud.loyalty.jwt.ACAbstractJwtRequest">
+        <property name="email"  	    type="String"/>
+        <property name="firstName"   	type="String"/>
+        <property name="lastName" 	    type="String"/>
+        <property name="zipCode"      	type="String"/>
+        <property name="optInStatus"  	type="String"/>
+        <property name="status"   	    type="String"/>
+        <property name="phone" 	        type="String"/>
+    </bean>
+   
+    <bean class="com.annex.cloud.loyalty.jwt.ACProductJwtRequest" extends="com.annex.cloud.loyalty.jwt.ACAbstractJwtRequest">
+        <property name="quantity"       type="String"/>
+        <property name="unitPrice"      type="String"/>
+        <property name="autoDelivery"   type="String"/>
+    </bean>
+    
+     <bean class="com.annex.cloud.loyalty.jwt.ACProductWrapperJwtRequest" extends="com.annex.cloud.loyalty.jwt.ACAbstractJwtRequest">
+      	  <property name="id"  type="String"/>
+          <property name="productDetail"  type="java.util.List&lt;com.annex.cloud.loyalty.jwt.ACProductJwtRequest>"/>
+    </bean>
+  
+	<bean class="com.annex.cloud.loyalty.jwt.order.ACOrderProductJwtRequest" extends="com.annex.cloud.loyalty.jwt.ACAbstractJwtRequest">
+		<property name="quantity" 		type="String" />
+		<property name="unitPrice" 		type="String" />
+		<property name="netPrice" 		type="String" />
+		<property name="estimatedShipDate" type="String" />
+		<property name="categoryId" 	type="String" />
+		<property name="categoryName"	type="String" />
+		<property name="url" 			type="String" />
+		<property name="imageUrl" 		type="String" />
+		<property name="description" 	type="String" />
+		<property name="coupon" 		type="String" />
+		<property name="autoDelivery" 	type="String" />
+	</bean>
+	
+	<bean class="com.annex.cloud.loyalty.jwt.order.ACOrderJwtRequest" extends="com.annex.cloud.loyalty.jwt.ACAbstractJwtRequest">
+		<property name="id" type="String" />
+		<property name="userId" type="String" />
+		<property name="email" type="String" />
+		<property name="firstName" type="String" />
+		<property name="lastName" type="String" />
+		<property name="orderTotal" type="String" />
+		<property name="eventId" type="String" />
+		<property name="storeId" type="String" />
+		<property name="source" type="String" />
+		<property name="discountAmount" type="String" />
+		<property name="coupon" type="String" />
+		<property name="orderDetail" type="java.util.List&lt;com.annex.cloud.loyalty.jwt.order.ACOrderProductJwtRequest>" />
+	</bean>
+	
+	<bean class="com.annex.cloud.loyalty.jwt.ACProductDetailsJwtRequest" >
+        <property name="id" type="String"/>
+        <property name="quantity" type="String"/>
+        <property name="unitPrice" type="String"/>
+    </bean>
+	
+ 	<bean class="com.annex.cloud.loyalty.jwt.ACCartCalculationJwtRequest" extends="com.annex.cloud.loyalty.jwt.ACJwtRequest">
+        <property name="userId" type="String"/>
+        <property name="appliedPoints" type="String"/>
+        <property name="productDetail" type="java.util.List&lt;com.annex.cloud.loyalty.jwt.ACProductDetailsJwtRequest>"/>
+    </bean>
+	
+	<bean class="com.annex.cloud.loyalty.jwt.ACReturnOrderJwtRequest" extends="com.annex.cloud.loyalty.jwt.ACJwtRequest">
+        <property name="orderId" type="String"/>
+        <property name="status" type="String"/>
+        <property name="orderDetail" type="java.util.List&lt;com.annex.cloud.loyalty.jwt.ACProductDetailsJwtRequest>"/>
+    </bean>
+
+	<bean class="com.annex.cloud.loyalty.jwt.ACAbstractPointsJwtRequest"   extends="com.annex.cloud.loyalty.jwt.ACAbstractJwtRequest">
+        <property name="activity" type="String"/>       
+        <property name="reason" type="String"/>
+    </bean>  
+	
+    <bean class="com.annex.cloud.loyalty.jwt.ACCustomPointsJwtRequest" extends="com.annex.cloud.loyalty.jwt.ACAbstractPointsJwtRequest">
+        <property name="actionId" type="String"/>
+    </bean>  
+    
+    <bean class="com.annex.cloud.loyalty.jwt.ACCreditDebitPointsJwtRequest" extends="com.annex.cloud.loyalty.jwt.ACAbstractPointsJwtRequest">
+        <property name="debit"    type="String"/>
+        <property name="credit"   type="String"/>
+        <property name="orderId"  type="String"/>
+        <property name="actionId" type="String"/>
+        <property name="rewardId" type="String"/>
+        <property name="source"   type="String"/>
+    </bean>
+
+	<bean class="com.annex.cloud.loyalty.jwt.ACCreateSegmentJwtRequest" extends="com.annex.cloud.loyalty.jwt.ACAbstractJwtRequest">
+		<property name="name"  	        type="String"/>
+		<property name="type"   	    type="String"/>
+		<property name="fromDate" 	    type="String"/>
+		<property name="toDate"      	type="String"/>
+		<property name="member"  	    type="String"/>
+		<property name="status"   	    type="String"/>
+		<property name="externalId" 	type="String"/>
+		<property name="externalName"   type="String" />
+	</bean>
+
+	<bean class="com.annex.cloud.loyalty.jwt.ACUpdateSegmentJwtRequest" extends="com.annex.cloud.loyalty.jwt.ACCreateSegmentJwtRequest">
+		<property name="memberUpdate"   type="String" />
+	</bean>
+
+	<bean class="com.annexcloud.bulk.product.ACSyncProductJwtRequest">
+		<property name="productId"              type="String"/>
+		<property name="productName"    		type="String"/>
+		<property name="productPrice"           type="String"/>
+		<property name="productPointType"       type="String"/>
+		<property name="productPointRatio"      type="String"/>
+		<property name="productBonus"           type="String"/>
+		<property name="productBonusFlag"       type="String"/>
+		<property name="productMinimumLimit"    type="String"/>
+	</bean>
+
+	<bean class="com.annexcloud.bulk.category.jwt.ACSyncCategoryJwtRequest">
+		<property name="categoryId"        type="String"/>
+		<property name="categoryName"        type="String"/>
+		<property name="categoryPointType"        type="String"/>
+		<property name="categoryPointRatio"        type="String"/>
+		<property name="categoryBonus"        type="String"/>
+		<property name="categoryBonusFlag"        type="String"/>
+	</bean>
+
+	<bean class="com.annexcloud.bulk.jwt.ACSyncProductWrapperJwtRequest" extends="com.annex.cloud.loyalty.jwt.ACJwtRequest" >
+		<property name="pointAwardType" type="String" />
+		<property name="productDetail"  type="com.annexcloud.bulk.product.ACSyncProductJwtRequest"/>
+		<property name="categoryDetail"  type="com.annexcloud.bulk.category.jwt.ACSyncCategoryJwtRequest"/>
+	</bean>
+
+    <bean class="com.annex.cloud.backoffice.jwt.ACBackofficeJwtRequest" extends="com.annex.cloud.loyalty.jwt.ACJwtRequest">
+		<property name="siteId"      	type="String"/>
+		<property name="siteName"  	    type="String"/>
+		<property name="userId"   	    type="String"/>
+		<property name="role"   	    type="String"/>
+	</bean>
+
+	<bean class="com.annexcloud.v3.api.response.bulk.products.ACSyncProductResponse" extends="com.annex.cloud.v3.api.response.ACResponse">
+		<property name="productId" type="String" />
+		<property name="status"  type="String"/>
+		<property name="statusCode"  type="String"/>
+		<property name="pointAwardType" type="String" />
+		<property name="productDetail"  type="com.annexcloud.bulk.product.ACSyncProductJwtRequest"/>
+		<property name="categoryDetail"  type="com.annexcloud.bulk.category.jwt.ACSyncCategoryJwtRequest"/>
+	</bean>
+
+	<bean class="com.annex.cloud.loyalty.ACRequestDetails">
+        <property name="access_code" type="String"/>
+        <property name="siteId" type="String"/>
+        <property name="request_object" type="Object"/>
+		<property name="params" type="java.util.Map&lt;String,String>"/>
+	</bean>
+
+    <bean class="com.annex.cloud.v3.api.response.ACResponse">
+        <property name="errorCode" type="String"/>
+        <property name="errorMessage" type="String"/>
+        <property name="requestHasSucceeded" type="Boolean"/>
+    </bean> 
+    
+    <!--for Creating User In Annex Cloud-->
+    <bean class="com.annex.cloud.v3.api.response.user.ACUserResponse" extends="com.annex.cloud.v3.api.response.ACResponse">
+        <property name="id" type="String"/>
+        <property name="email" type="String"/>
+        <property name="firstName" type="String"/>
+        <property name="lastName" type="String"/>
+        <property name="optInStatus" type="String"/>
+        <property name="status" type="String"/>
+        <property name="phone" type="String"/>
+        <property name="birthDate" type="String"/>
+        <property name="anniversaryDate" type="String"/>
+        <property name="createDate" type="String"/>
+        <property name="updateDate" type="String"/>
+    </bean> 
+    
+    <bean class="com.annex.cloud.v3.api.response.user.ACUserUpdateResponse" extends="com.annex.cloud.v3.api.response.ACResponse">
+        <property name="id" type="String"/>
+        <property name="email" type="String"/>
+        <property name="firstName" type="String"/>
+        <property name="lastName" type="String"/>
+         <property name="zipCode" type="String"/>
+        <property name="optInStatus" type="String"/>
+        <property name="status" type="String"/>
+        <property name="phone" type="String"/>
+        <property name="birthDate" type="String"/>
+        <property name="anniversaryDate" type="String"/>
+        <property name="userProfileImageUrl" type="String"/>
+        <property name="createDate" type="String"/>
+        <property name="updateDate" type="String"/>
+		<property name="optInDate" type="String"/>
+		<property name="extendedAttribute" type="java.util.Map&lt;String,String>"/>
+    </bean> 
+
+    <bean class="com.annex.cloud.v3.api.response.user.ACCustomActionResponse" extends="com.annex.cloud.v3.api.response.ACResponse">
+        <property name="id" type="String"/>
+        <property name="actionId" type="String"/>
+        <property name="rewardId" type="String"/>
+        <property name="rewardCode" type="String"/>
+        <property name="activity" type="String"/>
+        <property name="credit" type="String"/>
+        <property name="reason" type="String"/>
+        <property name="orderId" type="String"/>
+        <property name="debit" type="String"/>
+        <property name="holdPoints" type="String"/>
+        <property name="releaseDate" type="String"/>
+    </bean>
+    
+    <bean class="com.annex.cloud.v3.api.response.order.ACOrderProductResponse">
+    	<property name="id" 		type="String" />
+		<property name="quantity" 		type="String" />
+		<property name="unitPrice" 		type="String" />
+		<property name="netPrice" 		type="String" />
+		<property name="estimatedShipDate" type="String" />
+		<property name="categoryId" 	type="String" />
+		<property name="categoryName"	type="String" />
+		<property name="url" 			type="String" />
+		<property name="imageUrl" 		type="String" />
+		<property name="description" 	type="String" />
+		<property name="coupon" 		type="String" />
+		<property name="autoDelivery" 	type="String" />
+	</bean>
+
+	<bean class="com.annex.cloud.v3.api.response.user.ACOrderResponse"		extends="com.annex.cloud.v3.api.response.ACResponse">
+		<property name="id" type="String" />
+		<property name="userId" type="String" />
+		<property name="email" type="String" />
+		<property name="orderTotal" type="String" />
+		<property name="storeId" type="String" />
+		<property name="source" type="String" />
+		<property name="pointsAwarded" type="String" />
+		<property name="updatedAvailablePoints" type="String" />
+		<property name="updatedLifetimePoints" type="String" />
+		<property name="orderDetail" type="java.util.List&lt;com.annex.cloud.v3.api.response.order.ACOrderProductResponse>" />
+	</bean> 
+	
+    <bean class="com.annex.cloud.v3.api.response.user.ACProductPointResponse" extends="com.annex.cloud.v3.api.response.ACResponse">
+		 <property name="id"   			type="String"/>
+		 <property name="quantity"   	type="String"/>          
+		 <property name="unitPrice"   	type="String"/>           
+		 <property name="autoDelivery"  type="String"/>       
+		 <property name="points"   		type="Double"/>        
+		 <property name="calculation"   type="String"/>      
+		 <property name="pointsRatio"   type="Double"/> 
+    </bean> 
+    
+   <bean class="com.annex.cloud.v3.api.response.user.ACProductPointWrapperResponse" extends="com.annex.cloud.v3.api.response.ACResponse">
+		 <property name="data"   		type="java.util.List&lt;com.annex.cloud.v3.api.response.user.ACProductPointResponse>"/>              
+    </bean> 
+    
+    <bean class="com.annex.cloud.v3.api.response.user.ACReturnOrcerResponse" extends="com.annex.cloud.v3.api.response.ACResponse">
+		 <property name="orderId"   type="String"/>              
+		 <property name="pointsAwarded"   type="String"/>          
+		 <property name="pointsRemoved"   type="String"/>    
+    </bean> 
+    
+    <bean class="com.annex.cloud.v3.api.response.user.ACRewardListResponse" extends="com.annex.cloud.v3.api.response.ACResponse">
+		 <property name="creditsToCurrencyRatio"   type="String"/>              
+		 <property name="creditsToCurrencyValue"   type="String"/>
+		 <property name="rewardDetail"   type="java.util.List&lt;com.annex.cloud.v3.api.response.ACRewardDetails>" />    
+    </bean> 
+    
+    <bean class="com.annex.cloud.v3.api.response.ACRewardDetails">
+        <property name="rewardId" type="String"/>
+        <property name="displayText" type="String"/>
+        <property name="creditRequired" type="String"/>
+        <property name="eligible" type="String"/>
+        <property name="rewardUrl" type="String"/>
+        <property name="rewardImageUrl" type="String"/>
+    </bean>
+
+	<bean
+		class="com.annex.cloud.v3.api.response.user.ACUserPointsResponse"
+		extends="com.annex.cloud.v3.api.response.ACResponse">
+		<property name="id" type="String" />
+		<property name="availablePoints" type="String" />
+		<property name="usedPoints" type="String" />
+		<property name="expiredPoints" type="String" />
+		<property name="lifetimePoints" type="String" />
+		<property name="holdPoints" type="String" />
+		<property name="usedPointsOnReward" type="String" />
+		<property name="pointsToExpire" type="String" />
+		<property name="pointsToNextTier" type="String" />
+		<property name="spendToNextTier" type="String" />
+		<property name="pointsToExpireDate" type="String" />
+		<property name="totalSpend" type="String" />
+		<property name="creditsToCurrencyRatio" type="String" />
+		<property name="creditsToCurrencyValue" type="Double" />
+	</bean>
+
+	<bean	class="com.annex.cloud.v3.api.response.user.ACCartCalculationResponse"		extends="com.annex.cloud.v3.api.response.ACResponse">
+		<property name="userId" 							type="String" />
+		<property name="lifetimePoints" 					type="String" />
+		<property name="usedPoints" 						type="String" />
+		<property name="availablePoints" 					type="String" />
+		<property name="holdPoints" 						type="String" />
+		<property name="appliedPoints" 						type="String" />
+		<property name="cartPoints" 						type="Double" />
+		<property name="availablePointsAfterOrder" 			type="String" />
+		<property name="holdPointsAfterOrder" 				type="String" />
+		<property name="creditsToCurrencyRatio" 			type="String" />
+		<property name="creditsToCurrencyValue" 			type="String" />
+		<property name="creditsToCurrencyValueAfterOrder"	type="String" />
+		<property name="creditsToCurrencyValueCartPoints"	type="String" />
+		<property name="productDetail"						type="java.util.List&lt;com.annex.cloud.v3.api.response.user.ACCartProductsResponse>" />
+	</bean>
+
+	<bean	class="com.annex.cloud.v3.api.response.user.ACCartProductsResponse"	   extends="com.annex.cloud.loyalty.jwt.ACProductDetailsJwtRequest">
+		<property name="points" 				 type="Double" />
+	</bean>
+	<!-- changes -->
+     <bean class="de.hybris.platform.commercefacades.order.data.AbstractOrderData">
+		<property name="annexLoyaltyCredit"      type="de.hybris.platform.commercefacades.product.data.PriceData"/>
+		<property name="annexCouponCode"         type="String" />
+	 </bean>
+	
+ 	<bean	class="com.annex.cloud.v3.api.response.user.activity.ACActivityDetailResponse"		extends="com.annex.cloud.v3.api.response.ACResponse">
+		 <property name="actionId"            type="String" />                                                  
+		 <property name="activity"            type="String" />                                
+		 <property name="credit"              type="String" />                                
+		 <property name="displayText"         type="String" />                                
+		 <property name="createDate"          type="String" />                                
+		 <property name="expireDate"          type="String" />
+		 <property name="rewardId"            type="String" />
+		 <property name="rewardCode"          type="String" />
+		 <property name="debit"               type="String" />
+	</bean>
+	
+ 	<bean	class="com.annex.cloud.v3.api.response.user.activity.ACUserActivityResponse"		extends="com.annex.cloud.v3.api.response.ACResponse">
+		 <property name="activityDetail"      type="java.util.List&lt;com.annex.cloud.v3.api.response.user.activity.ACActivityDetailResponse>" />
+		 <property name="currentPage"         type="String" />
+		 <property name="pages"               type="String" />
+		 <property name="totalActivityCount"  type="String" />
+	</bean>
+ 
+	<bean	class="com.annex.cloud.v3.api.response.user.ACUserDetailsResponse"		extends="com.annex.cloud.v3.api.response.ACResponse">
+		 <property name="id"                    type="String" />                                                  
+		 <property name="email"                 type="String" />                                
+		 <property name="firstName"             type="String" />                                
+		 <property name="lastName"              type="String" />                                
+		 <property name="zipCode"               type="String" />                                
+		 <property name="optInStatus"           type="String" />                                
+		 <property name="status"                type="String" />                                
+		 <property name="phone"                 type="String" />                                
+		 <property name="birthDate"             type="String" />                                                                         
+		 <property name="anniversaryDate"       type="String" />                                                                         
+		 <property name="userProfileImageUrl"   type="String" />                                                                         
+		 <property name="createDate"            type="String" />                                                                         
+		 <property name="updateDate"            type="String" />                                                                         
+		 <property name="extendedAttribute"     type="Object" />
+		 <property name="totalSpendCurrency"    type="String" />
+		 <property name="optInDate"    			type="String" />
+	</bean>
+	
+	<bean	class="com.annex.cloud.v3.api.response.user.segment.ACSegmentMemberDetailsResponse"		extends="com.annex.cloud.v3.api.response.ACResponse">
+		 <property name="userId"                    type="java.util.List&lt;String>" />                                                  
+		 <property name="zipCode"                   type="java.util.List&lt;String>" />                                
+		 <property name="anniversaryDate"           type="String" />                                
+		 <property name="birthDate"                 type="String" />
+	</bean>
+	
+	<bean	class="com.annex.cloud.v3.api.response.user.segment.ACSegmentActionDetailsResponse"		extends="com.annex.cloud.v3.api.response.ACResponse">
+		 <property name="actions"                    type="java.util.List&lt;String>" />                                                  
+		 <property name="actionSeries"               type="java.util.List&lt;String>" />             
+	</bean>
+	
+	<bean	class="com.annex.cloud.v3.api.response.user.segment.ACSegmentPointsDetailsResponse"		extends="com.annex.cloud.v3.api.response.ACResponse">
+		 <property name="availablePointRangeFrom"        type="String" />                                
+		 <property name="availablePointRangeTo"        type="String" />                                                                         
+		 <property name="lifetimePointRangeFrom"       type="String" />                                                                         
+		 <property name="lifetimePointRangeTo"         type="String" />                                                                         
+		 <property name="redeemPointRangeFrom"         type="String" />                                                                         
+		 <property name="redeemPointRangeTo"           type="String" />           
+	</bean>
+	
+	<bean	class="com.annex.cloud.v3.api.response.user.segment.ACSegmentPurchaseDetailsResponse"		extends="com.annex.cloud.v3.api.response.ACResponse">
+		 <property name="productPurchased"          type="java.util.List&lt;String>" />                                
+		 <property name="productCategory"           type="java.util.List&lt;String>" />                                                                         
+		 <property name="source"       				type="String" />                                                                         
+		 <property name="country"        		 	type="String" />                  
+	</bean>
+	
+		<bean	class="com.annex.cloud.v3.api.response.user.segment.ACSegmentStoreDetailsResponse"		extends="com.annex.cloud.v3.api.response.ACResponse">
+		 <property name="storeName"           type="String" />                                
+		 <property name="country"             type="String" />                                                                         
+		 <property name="region"       		  type="String" />                                                                         
+		 <property name="state"        		  type="String" />  
+		 <property name="city"        		  type="String" />                 
+	</bean>
+	
+	<bean	class="com.annex.cloud.v3.api.response.user.segment.ACSegmentDetailsResponse"		extends="com.annex.cloud.v3.api.response.ACResponse">
+		 <property name="segmentName"               type="String" />                                
+		 <property name="segmentType"               type="String" />                                                                         
+		 <property name="segmentDateFrom"       	type="String" />                                                                         
+		 <property name="segmentDateTo"        		type="String" />  
+		 <property name="memberDetails"        		type="com.annex.cloud.v3.api.response.user.segment.ACSegmentMemberDetailsResponse" /> 
+		 <property name="actionDetails"        		type="com.annex.cloud.v3.api.response.user.segment.ACSegmentActionDetailsResponse" />        
+		 <property name="pointsDetails"        		type="com.annex.cloud.v3.api.response.user.segment.ACSegmentPointsDetailsResponse" />  
+		 <property name="purchaseDetails"        	type="com.annex.cloud.v3.api.response.user.segment.ACSegmentPurchaseDetailsResponse" />                  
+		 <property name="storeDetails"        		type="com.annex.cloud.v3.api.response.user.segment.ACSegmentStoreDetailsResponse" />      
+   </bean>
+
+	<bean	class="com.annex.cloud.v3.api.response.user.segment.ACSegmentDetailsWrapperResponse"		extends="com.annex.cloud.v3.api.response.ACResponse">
+		 <property name="segmentDetail"               type="com.annex.cloud.v3.api.response.user.segment.ACSegmentDetailsResponse" />                  
+   </bean>
+
+	<bean    class="com.annex.cloud.v3.api.response.user.campaign.ACCampaignAudienceResponse"      extends="com.annex.cloud.v3.api.response.ACResponse">
+		<property name="segment"           type="String" />
+		<property name="tier"              type="String" />
+	</bean>
+	<bean    class="com.annex.cloud.v3.api.response.user.campaign.ACCampaignResponse" extends="com.annex.cloud.v3.api.response.ACResponse">
+		<property name="campaignId"              type="String" />
+		<property name="campaignName"            type="String" />
+		<property name="campaignDateFrom"        type="String" />
+		<property name="campaignDateTo"          type="String" />
+		<property name="campaignDescription"     type="String" />
+		<property name="campaignTerms"           type="String" />
+		<property name="campaignTagline"         type="String" />
+		<property name="audience"                type="com.annex.cloud.v3.api.response.user.campaign.ACCampaignAudienceResponse" />
+		<property name="campaignStatus"          type="String" />
+		<property name="campaignGroupName"       type="String" />
+		<property name="numberOfMilestones"      type="String" />
+		<property name="campaignCreateDate"      type="String" />
+		<property name="campaignUpdateDate"      type="String" />
+	</bean>
+
+	<bean    class="com.annex.cloud.v3.api.response.user.campaign.ACCampaignDetailsResponse"       extends="com.annex.cloud.v3.api.response.ACResponse">
+		<property name="allCampaignDetails"           type="java.util.List&lt;com.annex.cloud.v3.api.response.user.campaign.ACCampaignResponse>" />
+		<property name="pages"                        type="String" />
+		<property name="currentPage"                  type="String" />
+	</bean>
+
+	<bean	class="com.annex.cloud.v3.api.response.user.campaign.ACStoreDetailsResponse"		extends="com.annex.cloud.v3.api.response.ACResponse">
+		 <property name="storeId"           type="String" />                                
+		 <property name="storeName"         type="String" />                                                                         
+		 <property name="Company"           type="String" />                                                                         
+		 <property name="LineOfBusiness"    type="String" />  
+		 <property name="District"       	type="String" />                                                                         
+		 <property name="Country"        	type="String" /> 
+		 <property name="State"        		type="String" /> 
+		 <property name="City"        		type="String" /> 
+		 <property name="Region"        	type="String" /> 
+		 <property name="Zipcode"        	type="String" /> 
+	</bean>
+
+	<bean	class="com.annex.cloud.v3.api.response.user.campaign.ACUsedRewardDetailResponse"		extends="com.annex.cloud.v3.api.response.ACResponse">
+		 <property name="rewardCode"           type="String" />                                
+		 <property name="pointsUsed"         type="String" />                                                                         
+		 <property name="rewardName"           type="String" />                                                                         
+		 <property name="rewardStatus"    type="String" />  
+		 <property name="reason"       	type="String" />                                                                         
+		 <property name="createDate"        	type="String" /> 
+	</bean>
+
+ 	<bean	class="com.annex.cloud.v3.api.response.user.ACUsedRewardListResponse"		extends="com.annex.cloud.v3.api.response.ACResponse">
+		 <property name="rewardDetail"           type="java.util.List&lt;com.annex.cloud.v3.api.response.user.campaign.ACUsedRewardDetailResponse>" />                                
+		 <property name="pages"         		 type="String" />                                                                         
+		 <property name="current_page"           type="String" />      
+	</bean>
+	
+	<bean	class="com.annex.cloud.v3.api.response.user.action.ACActionDetailResponse"		extends="com.annex.cloud.v3.api.response.ACResponse">
+		 <property name="actionId"          type="String" />                                
+		 <property name="actionName"        type="String" />                                                                         
+		 <property name="actionPoints"      type="String" />                                                                         
+		 <property name="maxPoints"    		type="String" />  
+		 <property name="period"       		type="String" />                                                                         
+		 <property name="ratio"        		type="String" /> 
+		 <property name="status"       		type="String" />                                                                         
+		 <property name="expireInDays"      type="String" /> 
+		 <property name="holdDays"    		type="String" />  
+		 <property name="actionNameDisplay" type="String" />                                                                         
+		 <property name="actionLimitDisplay" 	type="String" /> 
+		 <property name="createDate"       	type="String" />                                                                         
+		 <property name="updateDate"        type="String" /> 
+	</bean>
+	
+	<bean	class="com.annex.cloud.v3.api.response.user.action.ACAllActionDetailResponse"		extends="com.annex.cloud.v3.api.response.ACResponse">
+		 <property name="allActionDetails"       type="java.util.List&lt;com.annex.cloud.v3.api.response.user.action.ACActionDetailResponse>" />                                
+		 <property name="pages"         		 type="String" />                                                                         
+		 <property name="current_page"           type="String" />      
+	</bean>
+	
+	<bean class="com.annex.cloud.v3.api.response.user.tier.ACTierInformationResponse"		extends="com.annex.cloud.v3.api.response.ACResponse">
+		<property name="id"                   type="String" />
+		<property name="currentTier"          type="String" />
+		<property name="nextTier"             type="String" />
+		<property name="pointsToNextTier"     type="String" />
+		<property name="purchaseRatio"    	   type="String" />
+	</bean>
+
+	<bean	class="com.annex.cloud.v3.api.response.user.action.ACUserActionDetailsResponse"		extends="com.annex.cloud.v3.api.response.ACResponse">
+		<property name="allActionDetails"       type="java.util.List&lt;com.annex.cloud.v3.api.response.user.action.ACUserActionDetailsResponseData>" />
+		<property name="siteId" type="String"/>
+		<property name="records" type="String"/>
+		<property name="pages" type="String"/>
+		<property name="currentPage" type="String"/>
+	</bean>
+	<bean class="com.annex.cloud.v3.api.response.user.action.ACUserActionDetailsResponseData" extends="com.annex.cloud.v3.api.response.ACResponse">
+		<property name="actionId"                  type="String"/>
+		<property name="actionName"                type="String"/>
+		<property name="actionPoints"              type="String"/>
+		<property name="maxPoints"                 type="String"/>
+		<property name="period"                    type="String"/>
+		<property name="ratio"                     type="String"/>
+		<property name="status"                    type="String"/>
+		<property name="expireInDays"              type="String"/>
+		<property name="holdDays"                  type="String"/>
+		<property name="actionPerformStatus"       type="String"/>
+		<property name="actionNameDisplay"         type="String"/>
+		<property name="actionLimitDisplay"        type="String"/>
+		<property name="requiredCount"             type="String"/>
+		<property name="completedCount"            type="String"/>
+		<property name="pendingsCount"              type="String"/>
+		<property name="actionLimitReachedFlag"    type="String"/>
+		<property name="actionLimitReachedStatus"  type="String"/>
+		<property name="createDate"                type="String"/>
+		<property name="updateDate"                type="String"/>
+	</bean>
+
+	<bean class="com.annex.cloud.v3.api.response.segment.ACCreateSegmentResponse" extends="com.annex.cloud.v3.api.response.ACResponse">
+		<property name="segmentId"  	        type="String"/>
+		<property name="segmentName"   	    type="String"/>
+		<property name="segmentType" 	    type="String"/>
+		<property name="segmentFromDate"      	type="String"/>
+		<property name="segmentToDate"  	    type="String"/>
+		<property name="member"   	    type="String"/>
+		<property name="status" 	type="String"/>
+		<property name="externalId"   type="String" />
+		<property name="externalName"   type="String" />
+	</bean>
+
+	<bean class="com.annex.cloud.v3.api.response.segment.ACUpdateSegmentResponse" extends="com.annex.cloud.v3.api.response.segment.ACCreateSegmentResponse">
+		<property name="memberUpdate"  	    type="String"/>
+	</bean>
+</beans>

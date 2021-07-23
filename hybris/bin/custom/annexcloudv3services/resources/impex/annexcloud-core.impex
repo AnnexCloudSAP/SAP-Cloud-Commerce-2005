@@ -1,0 +1,74 @@
+# -----------------------------------------------------------------------
+# [y] hybris Platform
+#
+# Copyright (c) 2018 SAP SE or an SAP affiliate company.  All rights reserved.
+#
+# This software is the confidential and proprietary information of SAP
+# ("Confidential Information"). You shall not disclose such Confidential
+# Information and shall use it only in accordance with the terms of the
+# license agreement you entered into with SAP.
+# -----------------------------------------------------------------------
+
+$productCatalog=apparelProductCatalog
+$catalogVersions=catalogVersions(catalog(id),version);
+$facetSearchConfigName=apparel-ukIndex
+$facetSearchConfigDescription=Apparel UK Solr Index
+$searchIndexNamePrefix=apparel-uk
+$solrIndexedType=apparel-ukProductType
+$indexBaseSite=apparel-uk
+$indexLanguages=en
+$indexCurrencies=GBP 
+$lang = en
+# Define range set
+INSERT_UPDATE SolrValueRangeSet; name[unique = true]; qualifier; type   ; solrValueRanges(&rangeValueRefID)                                     ;
+                               ; annexAvgRating     ;          ; double ; avgRatingRef1,avgRatingRef2,avgRatingRef3,avgRatingRef4,avgRatingRef5 ;
+
+# Define rating ranges
+INSERT_UPDATE SolrValueRange; &rangeValueRefID; solrValueRangeSet(name)[unique = true]; name[unique = true]; from ; to
+                            ; avgRatingRef1   ; annexAvgRating                        ; 0-1                  ; 0.0  ; 1.00
+                            ; avgRatingRef2   ; annexAvgRating                        ; 1-2                  ; 1.01 ; 2.00
+                            ; avgRatingRef3   ; annexAvgRating                        ; 2-3                  ; 2.01 ; 3.00
+                            ; avgRatingRef4   ; annexAvgRating                        ; 3-4                  ; 3.01 ; 4.00
+                            ; avgRatingRef5   ; annexAvgRating                        ; 4-5                  ; 4.01 ; 5.00
+
+INSERT_UPDATE SolrIndexedProperty; solrIndexedType(identifier)[unique = true]; name[unique = true]       ; type(code); sortableType(code); currency[default = false]; localized[default = false]; multiValue[default = false]; facet[default = true]; facetType(code); facetSort(code); priority; visible; fieldValueProvider                   ; customFacetSortProvider; rangeSets(name)
+                                 ; $solrIndexedType                          ; annexReviewAvgRatingRange ; double    ;                   ;                          ;                           ;                            ;                   ; MultiSelectOr  ; Custom         ; 1000    ; true   ; annexCloudProductRatingValueProvider ;                        ; annexAvgRating ;
+                                 ; $solrIndexedType                          ;averageRatings             ; double    ;                   ;                          ;                           ;                            ;     false         ;                ;                ; 2000    ;        ;                                      ;                        ;                ;
+
+
+# Solr Indexed Property
+UPDATE SolrIndexedProperty; solrIndexedType(identifier)[unique = true]; name[unique = true]       ; displayName[lang = $lang]
+                          ; $solrIndexedType                          ; annexReviewAvgRatingRange ; "Reviews"
+                          ; $solrIndexedType                          ;averageRatings             ;
+INSERT_UPDATE SolrSearchQueryProperty;indexedProperty(name, solrIndexedType(identifier))[unique=true];facet[default=true];priority;facetDisplayNameProvider;facetSortProvider;facetTopValuesProvider;includeInResponse[default=true];searchQueryTemplate(name, indexedType(identifier))[unique=true][default=DEFAULT:$solrIndexedType]
+                                     ;averageRatings:$solrIndexedType                                ;false              ;3000    ;                        ;                 ;                      ;                               ;
+
+INSERT_UPDATE SolrSearchQueryProperty;indexedProperty(name, solrIndexedType(identifier))[unique=true];facet[default=true];facetType(code);priority;facetDisplayNameProvider;facetSortProvider;facetTopValuesProvider;includeInResponse[default=true];searchQueryTemplate(name, indexedType(identifier))[unique=true][default=DEFAULT:$solrIndexedType]
+                                     ;annexReviewAvgRatingRange:$solrIndexedType			         ;					 ;MultiSelectOr	 ;4000	  ;						   ;				 ;defaultTopValuesProvider;                             ;
+
+INSERT_UPDATE SolrIndexedProperty;solrIndexedType(identifier)[unique=true];name[unique=true];type(code);sortableType(code);currency[default=false];localized[default=false];multiValue[default=false];useForSpellchecking[default=false];useForAutocomplete[default=false];fieldValueProvider;valueProviderParameters[map-delimiter=|];ftsPhraseQuery[default=false];ftsPhraseQueryBoost;ftsQuery[default=false];ftsQueryBoost;ftsFuzzyQuery[default=false];ftsFuzzyQueryBoost;ftsWildcardQuery[default=false];ftsWildcardQueryType(code)[default=POSTFIX];ftsWildcardQueryBoost;ftsWildcardQueryMinTermLength
+;$solrIndexedType; costValue             ;double ;            ;;    ;    ;    ;    ;acProductPointsValueProvider              ;									;    ;   ;    ;   ;    ;  ;    ;   ;  ;
+
+
+INSERT_UPDATE SolrSortField;sort(indexedType(identifier),code)[unique=true];fieldName[unique=true];ascending[unique=true]
+;$solrIndexedType:price-asc;costValue;true              
+
+ 
+  
+
+$productCatalog = apparelProductCatalog
+$contentCatalog = apparel-ukContentCatalog
+$contentCV = catalogVersion(CatalogVersion.catalog(Catalog.id[default=$contentCatalog]), CatalogVersion.version[default=Staged])[default=$contentCatalog:Staged]
+$defaultLanguage = en
+$storeUid = apparel-uk
+$siteUid = apparel-uk
+$lang = en
+
+INSERT_UPDATE JspIncludeComponent;$contentCV[unique=true];uid[unique=true];name;actions(uid,$contentCV);page;&componentRef
+;;ACProductGridComponent;Product Grid Component;ListPickUpInStoreAction,ListAddToCartAction;/WEB-INF/views/addons/annexcloudaddon/responsive/cms/acproductgridcomponent.jsp;ACProductGridComponent
+
+
+#### ProductGridPage
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef);;;
+;;ProductGridSlot;Product Grid Slot for Product List;true;ACProductGridComponent;;;
+                    

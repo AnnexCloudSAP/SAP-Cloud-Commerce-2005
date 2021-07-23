@@ -1,0 +1,22 @@
+<action-definition id="com.hybris.backoffie.widgets.actions.loyalty" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:noNamespaceSchemaLocation="http://www.hybris.com/schema/cockpitng/action-definition.xsd">
+
+<name>Loyalty</name>
+<description>Action for Loyalty</description>
+<author>hybris</author>
+<version>1.0</version>
+
+<actionClassName>com.annexcloud.actions.LoyaltyAction</actionClassName>
+
+<inputType>de.hybris.platform.core.model.user.CustomerModel</inputType>
+<outputType>java.lang.Object</outputType>
+
+<sockets>
+    <output id="openACWidget" />
+</sockets>
+
+<iconUri>icons/icon-loyalty.png</iconUri>
+<iconHoverUri>icons/icon-loyalty.png</iconHoverUri>
+<iconDisabledUri>icons/icon-loyalty.png</iconDisabledUri>
+
+</action-definition>
